@@ -72,13 +72,57 @@ function tutorial_1() {
     if (gameState === 'tutorial_1') {
         background(0);
 
+        fill(0);
+        quad(0, 0,
+            width / 3, 0,
+
+            width / 3, height,
+            0, height);
+
+        quad(width / 3, 0,
+            2 * width / 3, 0,
+
+            2 * width / 3, height,
+            width / 3, height);
+
+        quad(2 * width / 3, 0,
+            width, 0,
+
+            width, height,
+            2 * width / 3, height);
+
+        if (mouseX <= width / 3) {
+            fill('red');
+            quad(0, 0,
+                width / 3, 0,
+
+                width / 3, height,
+                0, height);
+        }
+        else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
+            fill('green');
+            quad(width / 3, 0,
+                2 * width / 3, 0,
+
+                2 * width / 3, height,
+                width / 3, height);
+        }
+        else if (mouseX >= 2 * width / 3) {
+            fill('blue');
+            quad(2 * width / 3, 0,
+                width, 0,
+
+                width, height,
+                2 * width / 3, height);
+        }
+
     }
 }
 
 function tutorial_2() {
     if (gameState === 'tutorial_2') {
         background(0);
-        isColorOn = true;
+        
     }
 }
 
@@ -121,6 +165,17 @@ function mouseClicked() {
             break;
 
         case 'tutorial_1':
+            if (mouseX <= width / 3) {
+                selectedColors = 'magenta';
+            }
+            else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
+                selectedColors = 'green';
+            }
+            else if (mouseX >= 2 * width / 3) {
+                selectedColors = 'blue';
+            }
+            isColorOn = true;
+            gameState = 'tutorial_2';
             break;
 
         case 'tutorial_2':
