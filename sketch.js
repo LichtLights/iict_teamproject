@@ -8,6 +8,13 @@ var isColorTrackOn = false;
 
 var score = 0;
 
+var tutorialTimer = 0;
+var musicTimer = 0;
+
+let trPosArr = [];
+
+let notesArr = [];
+
 const perfectThreshold = 5;
 const goodThreshold = 10;
 
@@ -137,8 +144,6 @@ function tutorial_2() {
         fill(255);
         text(moveInstructions, width / 2, height / 2 - 50);
 
-
-
         rectMode(CENTER);
         fill(255);
         rect(width / 2, 3 * height / 4, width / 4, height / 6);
@@ -155,8 +160,17 @@ function tutorial_3() {
     if (gameState === 'tutorial_3') {
         background(0);
 
+        const moveInstructions = '타이밍에 맞춰 마법봉을 움직이세요!';
+        textAlign(CENTER, CENTER);
+        textSize(24);
+        fill(255);
+        text(moveInstructions, width / 2, height / 2 - 50);
 
-        
+        tutorialTimer++;
+
+        if (tutorialTimer == 120) {
+            const tutonote = createNote('Up', 120);
+        }
 
     }
 }
@@ -260,6 +274,7 @@ function draw() {
 
     stateSelector();
     drawTrackingEffect();
+    noteUpdate();
 
 }
 
@@ -268,46 +283,99 @@ function drawTrackingEffect() {
         if (trackingData) { //if there is tracking data to look at, then...
             for (var i = 0; i < trackingData.length; i++) { //loop through each of the detected colors
                 // console.log( trackingData[i] )
-                rect(width - trackingData[i].x, trackingData[i].y, trackingData[i].width, trackingData[i].height)
+                trPosArr.push(createVector(width - trackingData[i].x, trackingData[i].y));
+                // const eff = rect(width - trackingData[i].x, trackingData[i].y, trackingData[i].width, trackingData[i].height);
             }
+        }
+        if (trPosArr.length > 7) {
+            trPosArr.shift();
+        }
+
+        beginShape();
+        for (let i = 0; i < trPosArr.length; i++) {
+            ellipse(trPosArr[i].x, trPosArr[i].y, 30, 30);
+        }
+        endShape();
+    }
+}
+
+function noteUpdate() {
+
+    if (notesArr.length > 0) {
+        for (let notes of notesArr) {
+            notes.display();
+            notes.timeingIndicator();
+            notes.checkTiming();
         }
     }
 }
 
 function playerStroke() {
-
-    
+    if (isColorTrackOn === true) {
+        const dx = trPosArr[6].x - trPosArr[0].x;
+        const dy = trPosArr[6].y - trPosArr[0].y;
+    }
 }
 
 class RhythmNote {
-    constructor(x, y, size, color, timing) {
-      this.x = x;
-      this.y = y;
-      this.size = size;
-      this.color = color;
-      this.timing = timing;
+    constructor(ctiming) {
+        this.size = 100;
+        this.color = 'white';
+        this.ctiming = ctiming;
+        this.timing = ctiming - 50;
+
+        this.x = width / 2;
+        this.y = height / 4;
     }
-  
+
     display() {
-      fill(this.color);
-      ellipse(this.x, this.y, this.size);
+        fill(this.color);
+        ellipse(this.x, this.y, this.size);
     }
-  
+
+    timeingIndicator() {
+
+    }
+
     checkTiming(playerTiming) {
-      // Compare the player's timing with the rhythm note's timing
-      // You can use the perfectThreshold and goodThreshold constants to define the timing windows
-      if (abs(playerTiming - this.timing) <= perfectThreshold) {
-        // Player hit the note perfectly
-        score += 100;
-        return 'perfect';
-      } else if (abs(playerTiming - this.timing) <= goodThreshold) {
-        // Player hit the note within the good threshold
-        score += 60;
-        return 'good';
-      } else {
-        // Player missed the note
-        return 'miss';
-      }
+        if (abs(playerTiming - this.timing) <= perfectThreshold) {
+            score += 100;
+            return 'perfect';
+        } else if (abs(playerTiming - this.timing) <= goodThreshold) {
+            score += 60;
+            return 'good';
+        } else {
+            return 'miss';
+        }
     }
-  }
-  
+}
+
+function createNote(direction, time) {
+
+    switch (direction) {
+
+        case 'Up':
+            const noteUp = new RhythmNote(time);
+            notesArr.push(noteUp);
+            return (noteUp);
+
+        case 'Down':
+            const noteDown = new RhythmNote(time);
+            notesArr.push(noteDown);
+            return (noteDown);
+
+        case 'Left':
+            const noteLeft = new RhythmNote(time);
+            notesArr.push(noteLeft);
+            return (noteLeft);
+
+        case 'Right':
+            const noteRight = new RhythmNote(time);
+            notesArr.push(noteRight);
+            return (noteRight);
+
+        default:
+            break;
+    }
+
+}
