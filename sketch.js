@@ -159,6 +159,7 @@ function tutorial_2() {
 function tutorial_3() {
     if (gameState === 'tutorial_3') {
         background(0);
+        score = 0;
 
         const moveInstructions = '타이밍에 맞춰 마법봉을 움직이세요!';
         textAlign(CENTER, CENTER);
@@ -318,11 +319,12 @@ function playerStroke() {
 }
 
 class RhythmNote {
-    constructor(ctiming) {
+    constructor(ctiming, direction) {
         this.size = 100;
         this.color = 'white';
         this.ctiming = ctiming;
         this.timing = ctiming - 50;
+        this.direction = direction;
 
         this.x = width / 2;
         this.y = height / 4;
@@ -331,6 +333,26 @@ class RhythmNote {
     display() {
         fill(this.color);
         ellipse(this.x, this.y, this.size);
+
+        // draw arrow for direction
+        switch (this.direction) {
+
+            case 'Up':
+                break;
+
+            case 'Down':
+                break;
+
+            case 'Left':
+                break;
+
+            case 'Right':
+                break;
+
+            default:
+                break;
+        }
+
     }
 
     timeingIndicator() {
