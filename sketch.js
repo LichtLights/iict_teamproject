@@ -19,7 +19,10 @@ const perfectThreshold = 5;
 const goodThreshold = 10;
 
 function preload() {
-
+    arrow_up = loadImage('../arrow_up.png');
+    arrow_down = loadImage('../arrow_down.png');
+    arrow_left = loadImage('../arrow_left.png');
+    arrow_right = loadImage('../arrow_right.png');
 }
 
 function stateSelector() {
@@ -170,16 +173,30 @@ function tutorial_3() {
         tutorialTimer++;
 
         if (tutorialTimer == 120) {
-            const tutonote = createNote('Up', 120);
+            const tutonote = createNote('Down', 120);
         }
 
     }
 }
 
 function gameIngame() {
-    if (gameState === 'gameIngame') {
+    if (gameState === "gameIngame") {
         background(0);
+        // ...
+        // Check note timing and update score
+        for (let i = 0; i < notesArr.length; i++) {
+            const note = notesArr[i];
+            const indicator = note.timingIndicator();
 
+            // Update score based on timing indicator
+            if (indicator === "perfect") {
+                score += 100;
+            } else if (indicator === "good") {
+                score += 50;
+            }
+
+            // ...
+        }
     }
 }
 
@@ -305,8 +322,8 @@ function noteUpdate() {
     if (notesArr.length > 0) {
         for (let notes of notesArr) {
             notes.display();
-            notes.timeingIndicator();
-            notes.checkTiming();
+            notes.timingIndicator();
+            notes.timingIndicatorDisplay();
         }
     }
 }
@@ -315,6 +332,22 @@ function playerStroke() {
     if (isColorTrackOn === true) {
         const dx = trPosArr[6].x - trPosArr[0].x;
         const dy = trPosArr[6].y - trPosArr[0].y;
+
+        if (dx >= 100) {
+            return 'Right';
+        }
+        else if (dx <= -100) {
+            return 'Left';
+        }
+        else if (dy >= 100) {
+            return 'Down';
+        }
+        else if (dy <= 100) {
+            return 'Up';
+        }
+        else {
+            return 'Nothing';
+        }
     }
 }
 
@@ -323,8 +356,11 @@ class RhythmNote {
         this.size = 100;
         this.color = 'white';
         this.ctiming = ctiming;
-        this.timing = ctiming - 50;
+        this.timing = ctiming - 60;
         this.direction = direction;
+
+        this.hit = false;
+        this.indicatorSize = 300;
 
         this.x = width / 2;
         this.y = height / 4;
@@ -335,18 +371,27 @@ class RhythmNote {
         ellipse(this.x, this.y, this.size);
 
         // draw arrow for direction
+        imageMode(CENTER);
         switch (this.direction) {
 
             case 'Up':
+                arrow_up.resize(this.size, this.size);
+                image(arrow_up, this.x, this.y);
                 break;
 
             case 'Down':
+                arrow_down.resize(this.size, this.size);
+                image(arrow_down, this.x, this.y);
                 break;
 
             case 'Left':
+                arrow_left.resize(this.size, this.size);
+                image(arrow_left, this.x, this.y);
                 break;
 
             case 'Right':
+                arrow_right.resize(this.size, this.size);
+                image(arrow_right, this.x, this.y);
                 break;
 
             default:
@@ -355,19 +400,52 @@ class RhythmNote {
 
     }
 
-    timeingIndicator() {
+    timingIndicator() {
+        const currentTime = this.ctiming;
+        const timeDiff = Math.abs(this.timing - currentTime);
+        const pstroke = playerStroke();
+
+        if (timeDiff < perfectThreshold && this.direction == pstroke) {
+            this.hit = true;
+            return "perfect";
+        }
+        else if (timeDiff < goodThreshold && this.direction == pstroke) {
+            this.hit = true;
+            return "good";
+        }
+        else {
+            return "miss";
+        }
 
     }
 
-    checkTiming(playerTiming) {
-        if (abs(playerTiming - this.timing) <= perfectThreshold) {
-            score += 100;
-            return 'perfect';
-        } else if (abs(playerTiming - this.timing) <= goodThreshold) {
-            score += 60;
-            return 'good';
+    timingIndicatorDisplay() {
+        const indicator = this.timingIndicator();
+        const maxIndicatorSize = 300;
+        const minIndicatorSize = 100;
+        const indicatorColor = color(255, 255, 255);
+        const indicatorStrokeWeight = 5;
+
+        push();
+        noFill();
+        stroke(indicatorColor);
+        strokeWeight(indicatorStrokeWeight);
+
+        const adjustedSize = map(this.indicatorSize, minIndicatorSize, maxIndicatorSize, minIndicatorSize, maxIndicatorSize);
+
+        const sizeDiff = adjustedSize - minIndicatorSize;
+
+        translate(this.x, this.y);
+        scale(adjustedSize / maxIndicatorSize);
+        ellipse(0, 0, sizeDiff);
+        pop();
+
+        // Update the indicator size
+        if (this.hit) {
+            this.indicatorSize = 0;
         } else {
-            return 'miss';
+            this.indicatorSize -= 1;
+            this.indicatorSize = constrain(this.indicatorSize, 0, maxIndicatorSize);
         }
     }
 }
@@ -377,22 +455,22 @@ function createNote(direction, time) {
     switch (direction) {
 
         case 'Up':
-            const noteUp = new RhythmNote(time);
+            const noteUp = new RhythmNote(time, 'Up');
             notesArr.push(noteUp);
             return (noteUp);
 
         case 'Down':
-            const noteDown = new RhythmNote(time);
+            const noteDown = new RhythmNote(time, 'Down');
             notesArr.push(noteDown);
             return (noteDown);
 
         case 'Left':
-            const noteLeft = new RhythmNote(time);
+            const noteLeft = new RhythmNote(time, 'Left');
             notesArr.push(noteLeft);
             return (noteLeft);
 
         case 'Right':
-            const noteRight = new RhythmNote(time);
+            const noteRight = new RhythmNote(time, 'Right');
             notesArr.push(noteRight);
             return (noteRight);
 
