@@ -415,12 +415,12 @@ class RhythmNote {
             const timeDiff = Math.abs(this.timing - currentTime);
             const pstroke = playerStroke();
 
-            if (timeDiff < perfectThreshold && this.direction == pstroke) {
+            if (timeDiff < perfectThreshold && this.direction == pstroke && !this.hit) {
                 this.hit = true;
                 console.log("perfect"); // DEBUG
                 return "perfect";
             }
-            else if (timeDiff < goodThreshold && this.direction == pstroke) {
+            else if (timeDiff < goodThreshold && this.direction == pstroke && !this.hit) {
                 this.hit = true;
                 console.log("good"); // DEBUG
                 return "good";
