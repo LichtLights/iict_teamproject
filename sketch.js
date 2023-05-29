@@ -10,13 +10,14 @@ var score = 0;
 
 var tutorialTimer = 0;
 var musicTimer = 0;
+var pStrokeTimer = 0;
 
 let trPosArr = [];
 
 let notesArr = [];
 
-const perfectThreshold = 5;
-const goodThreshold = 10;
+const perfectThreshold = 10;
+const goodThreshold = 30;
 
 function preload() {
     arrow_up = loadImage('../arrow_up.png');
@@ -334,15 +335,23 @@ function playerStroke() {
         const dy = trPosArr[6].y - trPosArr[0].y;
 
         if (dx >= 100) {
+            if (gameState == 'tutorial_3') { pStrokeTimer = tutorialTimer; }
+            if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Right';
         }
         else if (dx <= -100) {
+            if (gameState == 'tutorial_3') { pStrokeTimer = tutorialTimer; }
+            if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Left';
         }
         else if (dy >= 100) {
+            if (gameState == 'tutorial_3') { pStrokeTimer = tutorialTimer; }
+            if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Down';
         }
         else if (dy <= 100) {
+            if (gameState == 'tutorial_3') { pStrokeTimer = tutorialTimer; }
+            if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Up';
         }
         else {
@@ -356,7 +365,7 @@ class RhythmNote {
         this.size = 100;
         this.color = 'white';
         this.ctiming = ctiming;
-        this.timing = ctiming - 60;
+        this.timing = ctiming + 60;
         this.direction = direction;
 
         this.hit = false;
@@ -401,22 +410,36 @@ class RhythmNote {
     }
 
     timingIndicator() {
-        const currentTime = this.ctiming;
-        const timeDiff = Math.abs(this.timing - currentTime);
-        const pstroke = playerStroke();
+        if (gameState == 'tutorial_3') {
+            const currentTime = tutorialTimer;
+            const timeDiff = Math.abs(this.timing - currentTime);
+            const pstroke = playerStroke();
 
-        if (timeDiff < perfectThreshold && this.direction == pstroke) {
-            this.hit = true;
-            return "perfect";
+            if (timeDiff < perfectThreshold && this.direction == pstroke) {
+                this.hit = true;
+                console.log("perfect"); // DEBUG
+                return "perfect";
+            }
+            else if (timeDiff < goodThreshold && this.direction == pstroke) {
+                this.hit = true;
+                console.log("good"); // DEBUG
+                return "good";
+            }
         }
-        else if (timeDiff < goodThreshold && this.direction == pstroke) {
-            this.hit = true;
-            return "good";
-        }
-        else {
-            return "miss";
-        }
+        else if (gameState == 'gameIngame') {
+            const currentTime = musicTimer;
+            const timeDiff = Math.abs(this.timing - currentTime);
+            const pstroke = playerStroke();
 
+            if (timeDiff < perfectThreshold && this.direction == pstroke) {
+                this.hit = true;
+                return "perfect";
+            }
+            else if (timeDiff < goodThreshold && this.direction == pstroke) {
+                this.hit = true;
+                return "good";
+            }
+        }
     }
 
     timingIndicatorDisplay() {
