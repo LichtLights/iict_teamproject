@@ -11,6 +11,7 @@ var score = 0;
 var tutorialTimer = 0;
 var musicTimer = 0;
 var pStrokeTimer = 0;
+var ingameTimer = 0;
 
 let trPosArr = [];
 
@@ -26,6 +27,7 @@ function preload() {
     arrow_right = loadImage('../arrow_right.png');
 }
 
+// 각 Phase 선택
 function stateSelector() {
 
     switch (gameState) {
@@ -64,6 +66,7 @@ function stateSelector() {
 
 }
 
+// 각 Phase 구현
 function mainTitle() {
 
     if (gameState === 'title') {
@@ -181,23 +184,15 @@ function tutorial_3() {
 }
 
 function gameIngame() {
-    if (gameState === "gameIngame") {
+    if (gameState === 'gameIngame') {
         background(0);
-        // ...
-        // Check note timing and update score
-        for (let i = 0; i < notesArr.length; i++) {
-            const note = notesArr[i];
-            const indicator = note.timingIndicator();
 
-            // Update score based on timing indicator
-            if (indicator === "perfect") {
-                score += 100;
-            } else if (indicator === "good") {
-                score += 50;
-            }
+        const startInstructions = '게임이 시작됩니다!';
+        textAlign(CENTER, CENTER);
+        textSize(24);
+        fill(255);
+        text(moveInstructions, width / 2, height / 2 - 50);
 
-            // ...
-        }
     }
 }
 
@@ -215,6 +210,7 @@ function gameDefeat() {
     }
 }
 
+// 각 Phase interaction 구현
 function mouseClicked() {
 
     switch (gameState) {
@@ -274,6 +270,7 @@ function setup() {
     capture.id("myVideo"); //give the capture an ID so we can use it in the tracker below.
 }
 
+// 마법봉 tracking
 function trackingStart() {
     if (isColorTrackOn == false) {
         // colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
@@ -289,6 +286,7 @@ function trackingStart() {
     }
 }
 
+// 매 프레임 화면 다시 그리기
 function draw() {
 
     stateSelector();
@@ -297,11 +295,12 @@ function draw() {
 
 }
 
+// 마법봉 tracking 효과 그리기
 function drawTrackingEffect() {
     if (isColorTrackOn === true) {
         if (trackingData) { //if there is tracking data to look at, then...
             for (var i = 0; i < trackingData.length; i++) { //loop through each of the detected colors
-                // console.log( trackingData[i] )
+                // console.log( trackingData[i] );
                 trPosArr.push(createVector(width - trackingData[i].x, trackingData[i].y));
                 // const eff = rect(width - trackingData[i].x, trackingData[i].y, trackingData[i].width, trackingData[i].height);
             }
@@ -318,6 +317,7 @@ function drawTrackingEffect() {
     }
 }
 
+// 리듬 노트 다시 그리기
 function noteUpdate() {
 
     if (notesArr.length > 0) {
@@ -329,6 +329,7 @@ function noteUpdate() {
     }
 }
 
+// 플레이어 input
 function playerStroke() {
     if (isColorTrackOn === true) {
         const dx = trPosArr[6].x - trPosArr[0].x;
@@ -433,10 +434,12 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
+                score += 100;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
+                score += 50;
                 return "good";
             }
         }
@@ -463,12 +466,27 @@ class RhythmNote {
         ellipse(0, 0, sizeDiff);
         pop();
 
-        // Update the indicator size
+        // Update the indicator size & check hit.
         if (this.hit) {
             this.indicatorSize = 0;
+            notesArr.splice(0,1);
+            if(indicator == 'perfect') {
+                // show perfect effect
+
+            }
+            else if(indicator == 'good') {
+                // show good effect
+
+            }
+
         } else {
             this.indicatorSize -= 1;
             this.indicatorSize = constrain(this.indicatorSize, 0, maxIndicatorSize);
+            if(gameState == 'tutorial_3' && this.ctiming + 90 <= tutorialTimer) {
+                notesArr.splice(0,1);
+                // show miss effect
+
+            }
         }
     }
 }
