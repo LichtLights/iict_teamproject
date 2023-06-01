@@ -8,10 +8,10 @@ var isColorTrackOn = false;
 
 var score = 0;
 
-var tutorialTimer = 0;
+var tutorialTimer = 0;  // 튜토리얼용 타이머
 var musicTimer = 0;
-var pStrokeTimer = 0;
-var ingameTimer = 0;
+var pStrokeTimer = 0;   // 플레이어 stroke 시간 정보 저장
+var ingameTimer = 0;    // 게임 시작 후 타이머
 
 let trPosArr = [];
 
@@ -176,8 +176,22 @@ function tutorial_3() {
 
         tutorialTimer++;
 
-        if (tutorialTimer == 120) {
-            const tutonote = createNote('Down', 120);
+        switch(tutorialTimer) {
+
+            case 120:
+                const tutonote1 = createNote('Right', 120);
+                break;
+
+            case 240:
+                const tutonote2 = createNote('Left', 240);
+                break;
+
+            case 360:
+                const tutonote3 = createNote('Down', 360);
+                break;
+
+            default:
+                break;
         }
 
     }
