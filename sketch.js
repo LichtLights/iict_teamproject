@@ -27,6 +27,10 @@ function preload() {
     arrow_right = loadImage('../arrow_right.png');
 }
 
+function modelLoaded() {
+    console.log('Model Loaded!');
+}
+
 // 각 Phase 선택
 function stateSelector() {
 
@@ -300,6 +304,11 @@ function trackingStart() {
     }
 }
 
+// // PoseNet tracking
+// function trackingStart() {
+
+// }
+
 // 매 프레임 화면 다시 그리기
 function draw() {
 
@@ -312,12 +321,19 @@ function draw() {
 // 마법봉 tracking 효과 그리기
 function drawTrackingEffect() {
     if (isColorTrackOn === true) {
+        var trackXavg = 0;
+        var trackYavg = 0;
         if (trackingData) { //if there is tracking data to look at, then...
             for (var i = 0; i < trackingData.length; i++) { //loop through each of the detected colors
                 // console.log( trackingData[i] );
-                trPosArr.push(createVector(width - trackingData[i].x, trackingData[i].y));
+                trackXavg += width - trackingData[i].x;
+                trackYavg += trackingData[i].y;
+                // trPosArr.push(createVector(width - trackingData[i].x, trackingData[i].y));
                 // const eff = rect(width - trackingData[i].x, trackingData[i].y, trackingData[i].width, trackingData[i].height);
             }
+            trackXavg = trackXavg / trackingData.length;
+            trackYavg = trackYavg / trackingData.length;
+            trPosArr.push(createVector(trackXavg, trackYavg));
         }
         if (trPosArr.length > 7) {
             trPosArr.shift();
