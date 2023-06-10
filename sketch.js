@@ -9,9 +9,15 @@ var isColorTrackOn = false;
 var score = 0;
 
 var tutorialTimer = 0;  // 튜토리얼용 타이머
+var tutorialPass = false;
+var tutorialAgain = false;
+
 var musicTimer = 0;
 var pStrokeTimer = 0;   // 플레이어 stroke 시간 정보 저장
 var ingameTimer = 0;    // 게임 시작 후 타이머
+var musicStarted = false;
+
+var noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
 
 let trPosArr = [];
 
@@ -19,8 +25,13 @@ let notesArr = [];
 
 const perfectThreshold = 10;
 const goodThreshold = 30;
+const missThreshold = 59;
 
 function preload() {
+
+    fontIngameL = loadFont('../src/fonts/KOFIH DrLEEJW_TTF-L.ttf');
+    fontIngameB = loadFont('../src/fonts/KOFIH DrLEEJW_TTF-B.ttf');
+
     arrow_up = loadImage('../src/Notes/arrow_up.png');
     arrow_down = loadImage('../src/Notes/arrow_down.png');
     arrow_left = loadImage('../src/Notes/arrow_left.png');
@@ -30,6 +41,10 @@ function preload() {
     wand_blue = loadImage('../src/MagicWand/magicWand_B.png');
     wand_yellow = loadImage('../src/MagicWand/magicWand_Y.png');
     wand_sel = loadImage('../src/MagicWand/magicWand_Selected.png');
+
+    trac_eff = loadImage('../src/mousePointer.png');
+
+    bg_game = loadImage('../src/background/battle.png');
 }
 
 function modelLoaded() {
@@ -83,7 +98,7 @@ function stateSelector() {
 function mainTitle() {
 
     if (gameState === 'title') {
-        background(0);
+        background(64, 48, 74);
 
         rectMode(CENTER);
         fill(255);
@@ -103,42 +118,48 @@ function story() {
 
 function tutorial_1() {
     if (gameState === 'tutorial_1') {
-        background(0);
-        
+        background(64, 48, 74);
+
         imageMode(CENTER);
-        
+
 
         if (mouseX <= width / 3) {
-            image(wand_sel, width / 3 / 2, height / 2);
+            image(wand_sel, width / 3 / 2, (height / 2) - (height / 9));
         }
         else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
-            image(wand_sel, (2 * (width / 3)) - width / 3 / 2, height / 2);
+            image(wand_sel, (2 * (width / 3)) - width / 3 / 2, (height / 2) - (height / 9));
         }
         else if (mouseX >= 2 * width / 3) {
-            image(wand_sel, (3 *(width / 3)) - width / 3 / 2, height / 2);
+            image(wand_sel, (3 * (width / 3)) - width / 3 / 2, (height / 2) - (height / 9));
         }
-        
-        image(wand_red, width / 3 / 2, height / 2);
-        image(wand_blue, (2 * (width / 3)) - width / 3 / 2, height / 2);
-        image(wand_yellow, (3 *(width / 3)) - width / 3 / 2, height / 2);
 
-        const colorInstructions = '마법봉의 색을 골라주세요!';
+        image(wand_red, width / 3 / 2, (height / 2) - (height / 9));
+        image(wand_blue, (2 * (width / 3)) - width / 3 / 2, (height / 2) - (height / 9));
+        image(wand_yellow, (3 * (width / 3)) - width / 3 / 2, (height / 2) - (height / 9));
+
+
         textAlign(CENTER, CENTER);
+        textFont(fontIngameL);
         textSize(24);
-        fill(255);
-        text(colorInstructions, width / 2, height / 2 - 50);
+        fill(250, 239, 208);
+        const colorInstructions1 = '사용할 마법 지팡이의 색을 골라주세요!';
+        text(colorInstructions1, width / 2, 50 * (height / 60));
+
+        textSize(18);
+        const colorInstructions2 = '착용하신 옷, 장신구 등과 겹치지 않는 색을 선택하시는 것을 권장합니다.';
+        text(colorInstructions2, width / 2, 54 * (height / 60));
 
     }
 }
 
 function tutorial_2() {
     if (gameState === 'tutorial_2') {
-        background(0);
+        background(64, 48, 74);
 
         const moveInstructions = '카메라를 향해 마법봉을 움직여보세요!';
         textAlign(CENTER, CENTER);
-        textSize(24);
-        fill(255);
+        textSize(28);
+        fill(250, 239, 208);
         text(moveInstructions, width / 2, height / 2 - 50);
 
         rectMode(CENTER);
@@ -155,33 +176,50 @@ function tutorial_2() {
 
 function tutorial_3() {
     if (gameState === 'tutorial_3') {
-        background(0);
+        background(64, 48, 74);
         score = 0;
 
-        const moveInstructions = '타이밍에 맞춰 마법봉을 움직이세요!';
-        textAlign(CENTER, CENTER);
-        textSize(24);
-        fill(255);
-        text(moveInstructions, width / 2, height / 2 - 50);
+        if (!tutorialAgain) {
+            const moveInstructions1 = '타이밍에 맞춰 마법봉을 움직이세요!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(moveInstructions1, width / 2, height / 2 - 50);
+        }
+        else {
+            const moveInstructions2 = '다시 움직여보세요!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(moveInstructions2, width / 2, height / 2 - 50);
+        }
 
         tutorialTimer++;
 
         switch (tutorialTimer) {
 
             case 120:
-                const tutonote1 = createNote('Right', 120);
+                const tutonote1 = createNote('Up', 120);
                 break;
 
             case 240:
-                const tutonote2 = createNote('Left', 240);
+                const tutonote2 = createNote('Up', 240);
                 break;
 
             case 360:
-                const tutonote3 = createNote('Down', 360);
+                const tutonote3 = createNote('Up', 360);
                 break;
 
             default:
                 break;
+        }
+
+        if (tutorialPass && tutorialTimer >= 460) {
+            gameState = 'gameIngame';
+        }
+        else if (!tutorialPass && tutorialTimer >= 460) {
+            tutorialTimer = 0;
+            tutorialAgain = true;
         }
 
     }
@@ -189,15 +227,76 @@ function tutorial_3() {
 
 function gameIngame() {
     if (gameState === 'gameIngame') {
-        background(0);
+        background(64, 48, 74);
 
-        const startInstructions = '게임이 시작됩니다!';
-        textAlign(CENTER, CENTER);
-        textSize(24);
-        fill(255);
-        text(moveInstructions, width / 2, height / 2 - 50);
+        ingameTimer++;
+
+        if (ingameTimer >= 60 && ingameTimer < 120) {
+            const startInstructions0 = '5초 후 게임이 시작됩니다!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(startInstructions0, width / 2, height / 2 - 50);
+        }
+        else if (ingameTimer >= 120 && ingameTimer < 180) {
+            const startInstructions1 = '4초 후 게임이 시작됩니다!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(startInstructions1, width / 2, height / 2 - 50);
+        }
+        else if (ingameTimer >= 180 && ingameTimer < 240) {
+            const startInstructions2 = '3초 후 게임이 시작됩니다!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(startInstructions2, width / 2, height / 2 - 50);
+        }
+        else if (ingameTimer >= 240 && ingameTimer < 300) {
+            const startInstructions3 = '2초 후 게임이 시작됩니다!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(startInstructions3, width / 2, height / 2 - 50);
+        }
+        else if (ingameTimer >= 300 && ingameTimer < 360) {
+            const startInstructions4 = '1초 후 게임이 시작됩니다!';
+            textAlign(CENTER, CENTER);
+            textSize(28);
+            fill(250, 239, 208);
+            text(startInstructions4, width / 2, height / 2 - 50);
+        }
+        else if (ingameTimer >= 360 && !musicStarted) {
+            musicStarted = true;
+        }
+
+        if (musicStarted) {
+            imageMode(CORNER);
+            image(bg_game, 0, 0);
+            musicTimer++;
+            inGameAnim();
+
+            switch (musicTimer) {
+
+                case 60:
+                    const gamenote1 = createNote('Right', 60);
+                    break;
+
+                case 180:
+                    const gamenote2 = createNote('Up', 180);
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
     }
+}
+
+function inGameAnim() {
+
+
 }
 
 function gameClear() {
@@ -223,6 +322,9 @@ function mouseClicked() {
             if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
                 gameState = 'tutorial_1';
             }
+            break;
+
+        case 'story':
             break;
 
         case 'tutorial_1':
@@ -269,7 +371,8 @@ function setup() {
     createCanvas(800, 600);
 
     capture = createCapture(VIDEO); //capture the webcam
-    capture.position(0, 0) //move the capture to the top left
+    capture.position(0, 0); //move the capture to the top left
+    capture.size(800, 600);
     capture.style('opacity', 0)// use this to hide the capture later on (change to 0 to hide)...
     capture.id("myVideo"); //give the capture an ID so we can use it in the tracker below.
 }
@@ -289,11 +392,6 @@ function trackingStart() {
         isColorTrackOn = true;
     }
 }
-
-// // PoseNet tracking
-// function trackingStart() {
-
-// }
 
 // 매 프레임 화면 다시 그리기
 function draw() {
@@ -327,7 +425,7 @@ function drawTrackingEffect() {
 
         beginShape();
         for (let i = 0; i < trPosArr.length; i++) {
-            ellipse(trPosArr[i].x, trPosArr[i].y, 30, 30);
+            image(trac_eff, trPosArr[i].x, trPosArr[i].y);
         }
         endShape();
     }
@@ -366,7 +464,7 @@ function playerStroke() {
             if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Down';
         }
-        else if (dy <= 100) {
+        else if (dy <= -100) {
             if (gameState == 'tutorial_3') { pStrokeTimer = tutorialTimer; }
             if (gameState == 'gameIngame') { pStrokeTimer = musicTimer; }
             return 'Up';
@@ -435,11 +533,13 @@ class RhythmNote {
             if (timeDiff < perfectThreshold && this.direction == pstroke && !this.hit) {
                 this.hit = true;
                 console.log("perfect"); // DEBUG
+                tutorialPass = true;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke && !this.hit) {
                 this.hit = true;
                 console.log("good"); // DEBUG
+                tutorialPass = true;
                 return "good";
             }
         }
@@ -468,6 +568,8 @@ class RhythmNote {
         const indicatorColor = color(255, 255, 255);
         const indicatorStrokeWeight = 5;
 
+        noteTimer++;
+
         push();
         noFill();
         stroke(indicatorColor);
@@ -489,10 +591,12 @@ class RhythmNote {
             if (indicator == 'perfect') {
                 // show perfect effect
 
+                noteTimer = 0;
             }
             else if (indicator == 'good') {
                 // show good effect
 
+                noteTimer = 0;
             }
 
         } else {
@@ -502,11 +606,15 @@ class RhythmNote {
                 notesArr.splice(0, 1);
                 // show miss effect
 
+                noteTimer = 0;
             }
         }
     }
 }
 
+// 노트 찍기 함수
+// createNote(방향, 시간);
+// 시간 = musicTimer, 여기서 입력한 시간에 노트가 생성되고, 생성된 시점부터 60프레임 이후가 정확한 판정입니다.(따라서 60프레임 내에 여러 노트를 배치할 수 없음.) / (60 frame = 1초)
 function createNote(direction, time) {
 
     switch (direction) {
