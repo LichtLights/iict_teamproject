@@ -21,10 +21,15 @@ const perfectThreshold = 10;
 const goodThreshold = 30;
 
 function preload() {
-    arrow_up = loadImage('../arrow_up.png');
-    arrow_down = loadImage('../arrow_down.png');
-    arrow_left = loadImage('../arrow_left.png');
-    arrow_right = loadImage('../arrow_right.png');
+    arrow_up = loadImage('../src/Notes/arrow_up.png');
+    arrow_down = loadImage('../src/Notes/arrow_down.png');
+    arrow_left = loadImage('../src/Notes/arrow_left.png');
+    arrow_right = loadImage('../src/Notes/arrow_right.png');
+
+    wand_red = loadImage('../src/MagicWand/magicWand_R.png');
+    wand_blue = loadImage('../src/MagicWand/magicWand_B.png');
+    wand_yellow = loadImage('../src/MagicWand/magicWand_Y.png');
+    wand_sel = loadImage('../src/MagicWand/magicWand_Selected.png');
 }
 
 function modelLoaded() {
@@ -38,6 +43,10 @@ function stateSelector() {
 
         case 'title':
             mainTitle();
+            break;
+
+        case 'story':
+            story();
             break;
 
         case 'tutorial_1':
@@ -88,53 +97,30 @@ function mainTitle() {
     }
 }
 
+function story() {
+
+}
+
 function tutorial_1() {
     if (gameState === 'tutorial_1') {
         background(0);
-
-        fill(0);
-        quad(0, 0,
-            width / 3, 0,
-
-            width / 3, height,
-            0, height);
-
-        quad(width / 3, 0,
-            2 * width / 3, 0,
-
-            2 * width / 3, height,
-            width / 3, height);
-
-        quad(2 * width / 3, 0,
-            width, 0,
-
-            width, height,
-            2 * width / 3, height);
+        
+        imageMode(CENTER);
+        
 
         if (mouseX <= width / 3) {
-            fill('magenta');
-            quad(0, 0,
-                width / 3, 0,
-
-                width / 3, height,
-                0, height);
+            image(wand_sel, width / 3 / 2, height / 2);
         }
         else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
-            fill('cyan');
-            quad(width / 3, 0,
-                2 * width / 3, 0,
-
-                2 * width / 3, height,
-                width / 3, height);
+            image(wand_sel, (2 * (width / 3)) - width / 3 / 2, height / 2);
         }
         else if (mouseX >= 2 * width / 3) {
-            fill('yellow');
-            quad(2 * width / 3, 0,
-                width, 0,
-
-                width, height,
-                2 * width / 3, height);
+            image(wand_sel, (3 *(width / 3)) - width / 3 / 2, height / 2);
         }
+        
+        image(wand_red, width / 3 / 2, height / 2);
+        image(wand_blue, (2 * (width / 3)) - width / 3 / 2, height / 2);
+        image(wand_yellow, (3 *(width / 3)) - width / 3 / 2, height / 2);
 
         const colorInstructions = '마법봉의 색을 골라주세요!';
         textAlign(CENTER, CENTER);
@@ -180,7 +166,7 @@ function tutorial_3() {
 
         tutorialTimer++;
 
-        switch(tutorialTimer) {
+        switch (tutorialTimer) {
 
             case 120:
                 const tutonote1 = createNote('Right', 120);
@@ -499,12 +485,12 @@ class RhythmNote {
         // Update the indicator size & check hit.
         if (this.hit) {
             this.indicatorSize = 0;
-            notesArr.splice(0,1);
-            if(indicator == 'perfect') {
+            notesArr.splice(0, 1);
+            if (indicator == 'perfect') {
                 // show perfect effect
 
             }
-            else if(indicator == 'good') {
+            else if (indicator == 'good') {
                 // show good effect
 
             }
@@ -512,8 +498,8 @@ class RhythmNote {
         } else {
             this.indicatorSize -= 1;
             this.indicatorSize = constrain(this.indicatorSize, 0, maxIndicatorSize);
-            if(gameState == 'tutorial_3' && this.ctiming + 90 <= tutorialTimer) {
-                notesArr.splice(0,1);
+            if (gameState == 'tutorial_3' && this.ctiming + 90 <= tutorialTimer) {
+                notesArr.splice(0, 1);
                 // show miss effect
 
             }
