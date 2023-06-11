@@ -15,6 +15,7 @@ var tutorialAgain = false;
 var musicTimer = 0;
 var pStrokeTimer = 0;   // 플레이어 stroke 시간 정보 저장
 var ingameTimer = 0;    // 게임 시작 후 타이머
+var gameStarted = false;
 var musicStarted = false;
 
 var noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
@@ -45,6 +46,8 @@ function preload() {
     trac_eff = loadImage('../src/mousePointer.png');
 
     bg_game = loadImage('../src/background/battle.png');
+
+    game_music = loadSound('../src/Sounds/InGameMusic.wav');
 }
 
 function modelLoaded() {
@@ -266,12 +269,20 @@ function gameIngame() {
             fill(250, 239, 208);
             text(startInstructions4, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 360 && !musicStarted) {
+        else if (ingameTimer >= 360 && !gameStarted) {
+            gameStarted = true;
             musicStarted = true;
         }
 
-        if (musicStarted) {
+        if (gameStarted) {
+
+            if(musicStarted) {
+                game_music.play();
+                musicStarted = false;
+            }
+
             imageMode(CORNER);
+            bg_game.resize(800, 600);
             image(bg_game, 0, 0);
             musicTimer++;
             inGameAnim();
