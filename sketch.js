@@ -8,6 +8,8 @@ var isColorTrackOn = false;
 
 var score = 0;
 
+var mainMusicStarted = false;
+
 var tutorialTimer = 0;  // 튜토리얼용 타이머
 var tutorialPass = false;
 var tutorialAgain = false;
@@ -59,6 +61,7 @@ function preload() {
     btn_nxt_pressed = loadImage('../src/Buttons/btn_nxt_pressed.png');
 
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
+    main_music = loadSound('../src/Sounds/Opening.wav');
 
     // dog
     dog0_idle = loadImage('../src/Dog/dog0_idle.png');
@@ -133,6 +136,11 @@ function mainTitle() {
 
     if (gameState === 'title') {
         image(bg_main, 0, 0);
+    }
+
+    if(!mainMusicStarted) {
+        main_music.play();
+        mainMusicStarted = true;
     }
 }
 
@@ -239,6 +247,10 @@ function tutorial_3() {
         }
 
         if (tutorialPass && tutorialTimer >= 230) {
+            if(mainMusicStarted) {
+                main_music.stop();
+                mainMusicStarted = false;
+            }
             gameState = 'gameIngame';
         }
         else if (!tutorialPass && tutorialTimer >= 230) {
