@@ -200,15 +200,15 @@ function tutorial_3() {
 
         switch (tutorialTimer) {
 
-            case 120:
+            case 60:
                 const tutonote1 = createNote('Up', 60);
                 break;
 
-            case 240:
+            case 120:
                 const tutonote2 = createNote('Up', 120);
                 break;
 
-            case 360:
+            case 180:
                 const tutonote3 = createNote('Up', 180);
                 break;
 
@@ -629,7 +629,7 @@ class RhythmNote {
         this.direction = direction;
 
         this.hit = false;
-        this.indicatorSize = 300;
+        this.indicatorSize = 200;
 
         this.x = width / 2;
         this.y = height / 4;
@@ -708,8 +708,8 @@ class RhythmNote {
 
     timingIndicatorDisplay() {
         const indicator = this.timingIndicator();
-        const maxIndicatorSize = 300;
-        const minIndicatorSize = 100;
+        const maxIndicatorSize = 200;
+        const minIndicatorSize = 50;
         const indicatorColor = color(255, 255, 255);
         const indicatorStrokeWeight = 5;
 
