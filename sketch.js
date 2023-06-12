@@ -818,13 +818,13 @@ class RhythmNote {
             const timeDiff = Math.abs(this.timing - currentTime);
             const pstroke = playerStroke();
 
-            if (timeDiff < perfectThreshold && this.direction == pstroke && !this.hit) {
+            if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
                 console.log("perfect"); // DEBUG
                 tutorialPass = true;
                 return "perfect";
             }
-            else if (timeDiff < goodThreshold && this.direction == pstroke && !this.hit) {
+            else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
                 console.log("good"); // DEBUG
                 tutorialPass = true;
