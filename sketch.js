@@ -47,7 +47,6 @@ function preload() {
 
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
-    bg_main.resize(800, 600);
 
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
 }
@@ -103,7 +102,6 @@ function stateSelector() {
 function mainTitle() {
 
     if (gameState === 'title') {
-        background(64, 48, 74);
         image(bg_main, 0, 0);
     }
 }
@@ -284,37 +282,30 @@ function gameIngame() {
 
                 case 112:
                     const gamenote1 = createNote('Down', 112);
-                    console.log(musicTimer);
                     break;
 
                 case 267:
                     const gamenote2 = createNote('Up', 267);
-                    console.log(musicTimer);
                     break;
 
                 case 702:
                     const gamenote3 = createNote('Up', 702);
-                    console.log(musicTimer);
                     break;
 
                 case 820:
                     const gamenote4 = createNote('Right', 820);
-                    console.log(musicTimer);
                     break;
 
                 case 949:
                     const gamenote5 = createNote('Left', 949);
-                    console.log(musicTimer);
                     break;
 
                 case 1077:
                     const gamenote6 = createNote('Down', 1077);
-                    console.log(musicTimer);
                     break;
 
                 case 1193:
                     const gamenote7 = createNote('Up', 1193);
-                    console.log(musicTimer);
                     break;
 
                 case 1305:
@@ -543,9 +534,6 @@ function draw() {
     stateSelector();
     drawTrackingEffect();
     noteUpdate();
-
-    console.log(frameRate());
-
 }
 
 // 마법봉 tracking 효과 그리기
