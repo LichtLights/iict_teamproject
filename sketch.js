@@ -8,6 +8,10 @@ var isColorTrackOn = false;
 
 var score = 0;
 
+var gameRunningTime = 0;
+var tempTime = 0;
+var isTimeCaptured = false;
+
 var tutorialTimer = 0;  // 튜토리얼용 타이머
 var tutorialPass = false;
 var tutorialAgain = false;
@@ -188,32 +192,40 @@ function tutorial_3() {
             text(moveInstructions2, width / 2, height / 2 - 50);
         }
 
-        tutorialTimer++;
+        gameRunningTime = millis();
+        if(!isTimeCaptured) {
+            tempTime = gameRunningTime;
+            isTimeCaptured = true;
+        }
+        tutorialTimer = gameRunningTime - tempTime;
+        console.log(floor(tutorialTimer/100));
 
-        switch (tutorialTimer) {
+        switch (floor(tutorialTimer/100)) {
 
-            case 120:
-                const tutonote1 = createNote('Up', 120);
+            case 20:
+                const tutonote1 = createNote('Up', 2000);
                 break;
 
-            case 240:
-                const tutonote2 = createNote('Up', 240);
+            case 40:
+                const tutonote2 = createNote('Up', 4000);
                 break;
 
-            case 360:
-                const tutonote3 = createNote('Up', 360);
+            case 60:
+                const tutonote3 = createNote('Up', 6000);
                 break;
 
             default:
                 break;
         }
 
-        if (tutorialPass && tutorialTimer >= 460) {
+        if (tutorialPass && tutorialTimer >= 8000) {
             gameState = 'gameIngame';
+            isTimeCaptured = false;
         }
-        else if (!tutorialPass && tutorialTimer >= 460) {
+        else if (!tutorialPass && tutorialTimer >= 8000) {
             tutorialTimer = 0;
             tutorialAgain = true;
+            isTimeCaptured = false;
         }
 
     }
@@ -614,7 +626,7 @@ class RhythmNote {
         this.size = 100;
         this.color = 'white';
         this.ctiming = ctiming;
-        this.timing = ctiming + 60;
+        this.timing = ctiming + 1000;
         this.direction = direction;
 
         this.hit = false;
