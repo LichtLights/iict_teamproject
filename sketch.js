@@ -19,14 +19,16 @@ var gameStarted = false;
 var musicStarted = false;
 
 var noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
+var judgeEffTimer = 0;
+var judgeVal = 'nothing';
 
 let trPosArr = [];
 
 let notesArr = [];
 
-const perfectThreshold = 10;
-const goodThreshold = 30;
-const missThreshold = 59;
+const perfectThreshold = 5;
+const goodThreshold = 15;
+const missThreshold = 29;
 
 function preload() {
 
@@ -37,6 +39,10 @@ function preload() {
     arrow_down = loadImage('../src/Notes/arrow_down.png');
     arrow_left = loadImage('../src/Notes/arrow_left.png');
     arrow_right = loadImage('../src/Notes/arrow_right.png');
+
+    judge_perfect = loadImage('../src/Effects/Judge/perfect.png');
+    judge_good = loadImage('../src/Effects/Judge/good.png');
+    judge_miss = loadImage('../src/Effects/Judge/miss.png');
 
     wand_red = loadImage('../src/MagicWand/magicWand_R.png');
     wand_blue = loadImage('../src/MagicWand/magicWand_B.png');
@@ -49,6 +55,8 @@ function preload() {
     bg_game = loadImage('../src/background/battle.png');
 
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
+
+    dog_idle = loadImage('../src/Dog/0dog_idle.png');
 }
 
 function modelLoaded() {
@@ -193,25 +201,25 @@ function tutorial_3() {
         switch (tutorialTimer) {
 
             case 120:
-                const tutonote1 = createNote('Up', 120);
+                const tutonote1 = createNote('Up', 60);
                 break;
 
             case 240:
-                const tutonote2 = createNote('Up', 240);
+                const tutonote2 = createNote('Up', 120);
                 break;
 
             case 360:
-                const tutonote3 = createNote('Up', 360);
+                const tutonote3 = createNote('Up', 180);
                 break;
 
             default:
                 break;
         }
 
-        if (tutorialPass && tutorialTimer >= 460) {
+        if (tutorialPass && tutorialTimer >= 230) {
             gameState = 'gameIngame';
         }
-        else if (!tutorialPass && tutorialTimer >= 460) {
+        else if (!tutorialPass && tutorialTimer >= 230) {
             tutorialTimer = 0;
             tutorialAgain = true;
         }
@@ -225,42 +233,42 @@ function gameIngame() {
 
         ingameTimer++;
 
-        if (ingameTimer >= 60 && ingameTimer < 120) {
+        if (ingameTimer >= 30 && ingameTimer < 60) {
             const startInstructions0 = '5초 후 게임이 시작됩니다!';
             textAlign(CENTER, CENTER);
             textSize(28);
             fill(250, 239, 208);
             text(startInstructions0, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 120 && ingameTimer < 180) {
+        else if (ingameTimer >= 60 && ingameTimer < 90) {
             const startInstructions1 = '4초 후 게임이 시작됩니다!';
             textAlign(CENTER, CENTER);
             textSize(28);
             fill(250, 239, 208);
             text(startInstructions1, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 180 && ingameTimer < 240) {
+        else if (ingameTimer >= 90 && ingameTimer < 120) {
             const startInstructions2 = '3초 후 게임이 시작됩니다!';
             textAlign(CENTER, CENTER);
             textSize(28);
             fill(250, 239, 208);
             text(startInstructions2, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 240 && ingameTimer < 300) {
+        else if (ingameTimer >= 120 && ingameTimer < 150) {
             const startInstructions3 = '2초 후 게임이 시작됩니다!';
             textAlign(CENTER, CENTER);
             textSize(28);
             fill(250, 239, 208);
             text(startInstructions3, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 300 && ingameTimer < 360) {
+        else if (ingameTimer >= 150 && ingameTimer < 180) {
             const startInstructions4 = '1초 후 게임이 시작됩니다!';
             textAlign(CENTER, CENTER);
             textSize(28);
             fill(250, 239, 208);
             text(startInstructions4, width / 2, height / 2 - 50);
         }
-        else if (ingameTimer >= 360 && !gameStarted) {
+        else if (ingameTimer >= 180 && !gameStarted) {
             gameStarted = true;
             musicStarted = true;
         }
@@ -280,147 +288,148 @@ function gameIngame() {
 
             switch (musicTimer) {
 
-                case 112:
-                    const gamenote1 = createNote('Down', 112);
+                case 56:
+                    const gamenote1 = createNote('Down', 56);
                     break;
 
-                case 267:
-                    const gamenote2 = createNote('Up', 267);
+                case 133:
+                    const gamenote2 = createNote('Up', 133);
                     break;
 
-                case 702:
-                    const gamenote3 = createNote('Up', 702);
+                case 351:
+                    const gamenote3 = createNote('Up', 351);
                     break;
 
-                case 820:
-                    const gamenote4 = createNote('Right', 820);
+                case 410:
+                    const gamenote4 = createNote('Right', 410);
                     break;
 
-                case 949:
-                    const gamenote5 = createNote('Left', 949);
+                case 474:
+                    const gamenote5 = createNote('Left', 474);
                     break;
 
-                case 1077:
-                    const gamenote6 = createNote('Down', 1077);
+                case 538:
+                    const gamenote6 = createNote('Down', 538);
                     break;
 
-                case 1193:
-                    const gamenote7 = createNote('Up', 1193);
+                case 596:
+                    const gamenote7 = createNote('Up', 596);
                     break;
 
-                case 1305:
-                    const gamenote8 = createNote('Up', 1305);
+                case 652:
+                    const gamenote8 = createNote('Up', 652);
                     break;
 
-                case 1411:
-                    const gamenote9 = createNote('Down', 1411);
+                case 705:
+                    const gamenote9 = createNote('Down', 705);
                     break;
 
-                case 1532:
-                    const gamenote10 = createNote('Down', 1532);
+                case 766:
+                    const gamenote10 = createNote('Down', 766);
                     break;
 
-                case 1637:
-                    const gamenote11 = createNote('Up', 1637);
+                case 818:
+                    const gamenote11 = createNote('Up', 818);
                     break;
 
-                case 1746:
-                    const gamenote12 = createNote('Left', 1746);
+                case 873:
+                    const gamenote12 = createNote('Left', 873);
                     break;
 
-                case 1857:
-                    const gamenote13 = createNote('Right', 1857);
+                case 928:
+                    const gamenote13 = createNote('Right', 928);
                     break;
 
-                case 1958:
-                    const gamenote14 = createNote('Left', 1958);
+                case 979:
+                    const gamenote14 = createNote('Left', 979);
                     break;
 
-                case 2065:
-                    const gamenote15 = createNote('Right', 2065);
+                case 1032:
+                    const gamenote15 = createNote('Right', 1032);
                     break;
 
-                case 2168:
-                    const gamenote16 = createNote('Up', 2168);
+                case 1084:
+                    const gamenote16 = createNote('Up', 1084);
                     break;
 
-                case 2264:
-                    const gamenote17 = createNote('Left', 2264);
+                case 1132:
+                    const gamenote17 = createNote('Left', 1132);
                     break;
 
-                case 2364:
-                    const gamenote18 = createNote('Down', 2364);
+                case 1182:
+                    const gamenote18 = createNote('Down', 1182);
                     break;
 
-                case 2458:
-                    const gamenote19 = createNote('Up', 2458);
+                case 1229:
+                    const gamenote19 = createNote('Up', 1229);
                     break;
 
-                case 2565:
-                    const gamenote20 = createNote('Right', 2565);
+                case 1282:
+                    const gamenote20 = createNote('Right', 1282);
                     break;
 
-                case 2651:
-                    const gamenote21 = createNote('Left', 2651);
+                case 1325:
+                    const gamenote21 = createNote('Left', 1325);
                     break;
 
-                case 2749:
-                    const gamenote22 = createNote('Right', 2749);
+                case 1374:
+                    const gamenote22 = createNote('Right', 1374);
                     break;
 
-                case 2838:
-                    const gamenote23 = createNote('Up', 2838);
+                case 1419:
+                    const gamenote23 = createNote('Up', 1419);
                     break;
 
-                case 2925:
-                    const gamenote24 = createNote('Up', 2925);
+                case 1462:
+                    const gamenote24 = createNote('Up', 1462);
                     break;
 
-                case 3013:
-                    const gamenote25 = createNote('Down', 3013);
-                    break;
-                case 3102:
-                    const gamenote26 = createNote('Right', 3102);
+                case 1506:
+                    const gamenote25 = createNote('Down', 1506);
                     break;
 
-                case 3188:
-                    const gamenote27 = createNote('Right', 3188);
+                case 1551:
+                    const gamenote26 = createNote('Right', 1551);
                     break;
 
-                case 3358:
-                    const gamenote28 = createNote('Up', 3358);
+                case 1594:
+                    const gamenote27 = createNote('Right', 1594);
                     break;
 
-                case 3442:
-                    const gamenote29 = createNote('Up', 3442);
+                case 1679:
+                    const gamenote28 = createNote('Up', 1679);
                     break;
 
-                case 3526:
-                    const gamenote30 = createNote('Right', 3526);
+                case 1721:
+                    const gamenote29 = createNote('Up', 1721);
                     break;
 
-                case 3607:
-                    const gamenote31 = createNote('Left', 3607);
+                case 1763:
+                    const gamenote30 = createNote('Right', 1763);
                     break;
 
-                case 3692:
-                    const gamenote32 = createNote('Up', 3692);
+                case 1803:
+                    const gamenote31 = createNote('Left', 1803);
                     break;
 
-                case 3768:
-                    const gamenote33 = createNote('Left', 3768);
+                case 1846:
+                    const gamenote32 = createNote('Up', 1846);
                     break;
 
-                case 4007:
-                    const gamenote34 = createNote('Up', 4007);
+                case 1884:
+                    const gamenote33 = createNote('Left', 1884);
                     break;
 
-                case 4083:
-                    const gamenote35 = createNote('Down', 4083);
+                case 2003:
+                    const gamenote34 = createNote('Up', 2003);
                     break;
 
-                case 4200:
-                    const gamenote36 = createNote('Right', 4200);
+                case 2041:
+                    const gamenote35 = createNote('Down', 2041);
+                    break;
+
+                case 2100:
+                    const gamenote36 = createNote('Right', 2100);
                     break;
 
                 default:
@@ -504,6 +513,7 @@ function mouseClicked() {
 
 function setup() {
     createCanvas(800, 600);
+    frameRate(30);
 
     capture = createCapture(VIDEO); //capture the webcam
     capture.position(0, 0); //move the capture to the top left
@@ -534,6 +544,7 @@ function draw() {
     stateSelector();
     drawTrackingEffect();
     noteUpdate();
+    noteEffect();
 }
 
 // 마법봉 tracking 효과 그리기
@@ -614,7 +625,7 @@ class RhythmNote {
         this.size = 100;
         this.color = 'white';
         this.ctiming = ctiming;
-        this.timing = ctiming + 60;
+        this.timing = ctiming + 30;
         this.direction = direction;
 
         this.hit = false;
@@ -724,11 +735,13 @@ class RhythmNote {
             notesArr.splice(0, 1);
             if (indicator == 'perfect') {
                 // show perfect effect
+                judgeVal = 'perfect';
 
                 noteTimer = 0;
             }
             else if (indicator == 'good') {
                 // show good effect
+                judgeVal = 'good';
 
                 noteTimer = 0;
             }
@@ -736,9 +749,17 @@ class RhythmNote {
         } else {
             this.indicatorSize -= 1;
             this.indicatorSize = constrain(this.indicatorSize, 0, maxIndicatorSize);
-            if (gameState == 'tutorial_3' && this.ctiming + 90 <= tutorialTimer) {
+            if (gameState == 'tutorial_3' && this.ctiming + 45 <= tutorialTimer) {
                 notesArr.splice(0, 1);
                 // show miss effect
+                judgeVal = 'miss';
+
+                noteTimer = 0;
+            }
+            else if(gameState == 'gameIngame' && this.ctiming + 45 <= musicTimer) {
+                notesArr.splice(0, 1);
+                // show miss effect
+                judgeVal = 'miss';
 
                 noteTimer = 0;
             }
@@ -776,5 +797,28 @@ function createNote(direction, time) {
         default:
             break;
     }
+
+}
+
+function noteEffect() {
+
+    imageMode(CENTER);
+    if(judgeVal === 'perfect' && judgeEffTimer <= 30) {
+        image(judge_perfect, width/2, height/2);
+        judgeEffTimer++;
+    }
+    else if(judgeVal === 'good' && judgeEffTimer <= 30) {
+        image(judge_good, width/2, height/2);
+        judgeEffTimer++;
+    }
+    else if(judgeVal === 'miss' && judgeEffTimer <= 30) {
+        image(judge_miss, width/2, height/2);
+        judgeEffTimer++;
+    }
+    else if(judgeEffTimer > 30) {
+        judgeVal = 'nothing';
+        judgeEffTimer = 0;
+    }
+    imageMode(CORNER);
 
 }
