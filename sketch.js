@@ -45,7 +45,9 @@ function preload() {
 
     trac_eff = loadImage('../src/mousePointer.png');
 
+    bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
+    bg_main.resize(800, 600);
 
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
 }
@@ -102,16 +104,7 @@ function mainTitle() {
 
     if (gameState === 'title') {
         background(64, 48, 74);
-
-        rectMode(CENTER);
-        fill(255);
-        rect(width / 2, 3 * height / 4, width / 4, height / 6);
-
-        if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
-            rectMode(CENTER);
-            fill(120);
-            rect(width / 2, 3 * height / 4, width / 4, height / 6);
-        }
+        image(bg_main, 0, 0);
     }
 }
 
@@ -276,7 +269,7 @@ function gameIngame() {
 
         if (gameStarted) {
 
-            if(musicStarted) {
+            if (musicStarted) {
                 game_music.play();
                 musicStarted = false;
             }
@@ -298,7 +291,7 @@ function gameIngame() {
                     const gamenote2 = createNote('Up', 267);
                     console.log(musicTimer);
                     break;
-                
+
                 case 702:
                     const gamenote3 = createNote('Up', 702);
                     console.log(musicTimer);
@@ -308,7 +301,7 @@ function gameIngame() {
                     const gamenote4 = createNote('Right', 820);
                     console.log(musicTimer);
                     break;
-                
+
                 case 949:
                     const gamenote5 = createNote('Left', 949);
                     console.log(musicTimer);
@@ -472,9 +465,7 @@ function mouseClicked() {
     switch (gameState) {
 
         case 'title':
-            if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
-                gameState = 'tutorial_1';
-            }
+            gameState = 'tutorial_1';
             break;
 
         case 'story':
@@ -552,6 +543,8 @@ function draw() {
     stateSelector();
     drawTrackingEffect();
     noteUpdate();
+
+    console.log(frameRate());
 
 }
 
