@@ -21,6 +21,7 @@ var musicStarted = false;
 var noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
 var judgeEffTimer = 0;
 var judgeVal = 'nothing';
+var judgeDir = 'nothing';
 
 let trPosArr = [];
 
@@ -54,9 +55,30 @@ function preload() {
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
 
+    btn_nxt_normal = loadImage('../src/Buttons/btn_nxt_normal.png');
+    btn_nxt_pressed = loadImage('../src/Buttons/btn_nxt_pressed.png');
+
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
 
-    dog_idle = loadImage('../src/Dog/0dog_idle.png');
+    // dog
+    dog0_idle = loadImage('../src/Dog/dog0_idle.png');
+    dog0_ready = loadImage('../src/Dog/dog0_ready.png');
+    dog0_miss = loadImage('../src/Dog/dog0_miss.png');
+
+    dog1_up = loadImage('../src/Dog/dog1_up.png');
+    dog1_down = loadImage('../src/Dog/dog1_down.png');
+    dog1_left = loadImage('../src/Dog/dog1_left.png');
+    dog1_right = loadImage('../src/Dog/dog1_right.png');
+
+    // dragon
+    dragon0_idle = loadImage('../src/Dragon/dragon0_idle.png');
+    dragon0_rdy_down = loadImage('../src/Dragon/dragon0_rdy_down.png');
+    dragon0_rdy_up_left = loadImage('../src/Dragon/dragon0_rdy_up_left.png');
+
+    dragon1_hit_down = loadImage('../src/Dragon/dragon1_hit_down.png');
+    dragon1_hit_right = loadImage('../src/Dragon/dragon1_hit_right.png');
+    dragon1_hit_up_left = loadImage('../src/Dragon/dragon1_hit_up_left.png');
+
 }
 
 function modelLoaded() {
@@ -164,14 +186,14 @@ function tutorial_2() {
         fill(250, 239, 208);
         text(moveInstructions, width / 2, height / 2 - 50);
 
-        rectMode(CENTER);
-        fill(255);
-        rect(width / 2, 3 * height / 4, width / 4, height / 6);
+        imageMode(CENTER);
+        image(btn_nxt_normal, width / 2, 3 * height / 4);
+        imageMode(CORNER);
 
         if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
-            rectMode(CENTER);
-            fill(120);
-            rect(width / 2, 3 * height / 4, width / 4, height / 6);
+            imageMode(CENTER);
+            image(btn_nxt_pressed, width / 2, 3 * height / 4);
+            imageMode(CORNER);
         }
     }
 }
@@ -277,6 +299,7 @@ function gameIngame() {
 
             if (musicStarted) {
                 game_music.play();
+                noteTimer = 0;
                 musicStarted = false;
             }
 
@@ -441,6 +464,126 @@ function gameIngame() {
 }
 
 function inGameAnim() {
+
+    if (gameStarted) {
+        if (noteTimer == 0 && judgeEffTimer == 0) {
+            // dog
+            dog0_idle.resize(800, 600);
+            imageMode(CORNER);
+            image(dog0_idle, 0, 0);
+
+            // dragon
+            dragon0_idle.resize(800, 600);
+            imageMode(CORNER);
+            image(dragon0_idle, 0, 0);
+        }
+        else if (noteTimer > 0 && judgeVal == 'nothing') {
+            // dog
+            dog0_ready.resize(800, 600);
+            imageMode(CORNER);
+            image(dog0_ready, 0, 0);
+
+            if (nextJudgeDir == 'Up' || nextJudgeDir == 'Left') {
+                // dragon
+                dragon0_rdy_up_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon0_rdy_up_left, 0, 0);
+            }
+            else if (nextJudgeDir == 'Down') {
+                // dragon
+                dragon0_rdy_down.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon0_rdy_down, 0, 0);
+            }
+            else if (nextJudgeDir == 'Right') {
+                // dragon
+                dragon0_idle.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon0_idle, 0, 0);
+            }
+
+        }
+        else if (judgeEffTimer > 0 && (judgeVal == 'perfect' || judgeVal == 'good')) {
+
+            if (judgeDir == 'Up') {
+                // dog
+                dog1_up.resize(800, 600);
+                imageMode(CORNER);
+                image(dog1_up, 0, 0);
+
+                // dragon
+                dragon1_hit_up_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_up_left, 0, 0);
+            }
+            else if (judgeDir == 'Down') {
+                // dog
+                dog1_down.resize(800, 600);
+                imageMode(CORNER);
+                image(dog1_down, 0, 0);
+
+                // dragon
+                dragon1_hit_down.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_down, 0, 0);
+            }
+            else if (judgeDir == 'Left') {
+                // dog
+                dog1_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dog1_left, 0, 0);
+
+                // dragon
+                dragon1_hit_up_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_up_left, 0, 0);
+            }
+            else if (judgeDir == 'Right') {
+                // dog
+                dog1_right.resize(800, 600);
+                imageMode(CORNER);
+                image(dog1_right, 0, 0);
+
+                // dragon
+                dragon1_hit_right.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_right, 0, 0);
+            }
+
+        }
+        else if (judgeEffTimer > 0 && judgeVal == 'miss') {
+            // dog
+            dog0_miss.resize(800, 600);
+            imageMode(CORNER);
+            image(dog0_miss, 0, 0);
+
+            if (judgeDir == 'Up') {
+                // dragon
+                dragon1_hit_up_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_up_left, 0, 0);
+            }
+            else if (judgeDir == 'Down') {
+                // dragon
+                dragon1_hit_down.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_down, 0, 0);
+            }
+            else if (judgeDir == 'Left') {
+                // dragon
+                dragon1_hit_up_left.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_up_left, 0, 0);
+            }
+            else if (judgeDir == 'Right') {
+                // dragon
+                dragon1_hit_right.resize(800, 600);
+                imageMode(CORNER);
+                image(dragon1_hit_right, 0, 0);
+            }
+        }
+
+    }
 
 
 }
@@ -695,11 +838,13 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
+                judgeDir = pstroke;
                 score += 100;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
+                judgeDir = pstroke;
                 score += 50;
                 return "good";
             }
@@ -756,7 +901,7 @@ class RhythmNote {
 
                 noteTimer = 0;
             }
-            else if(gameState == 'gameIngame' && this.ctiming + 45 <= musicTimer) {
+            else if (gameState == 'gameIngame' && this.ctiming + 45 <= musicTimer) {
                 notesArr.splice(0, 1);
                 // show miss effect
                 judgeVal = 'miss';
@@ -776,21 +921,25 @@ function createNote(direction, time) {
 
         case 'Up':
             const noteUp = new RhythmNote(time, 'Up');
+            nextJudgeDir = 'Up';
             notesArr.push(noteUp);
             return (noteUp);
 
         case 'Down':
             const noteDown = new RhythmNote(time, 'Down');
+            nextJudgeDir = 'Down';
             notesArr.push(noteDown);
             return (noteDown);
 
         case 'Left':
             const noteLeft = new RhythmNote(time, 'Left');
+            nextJudgeDir = 'Left';
             notesArr.push(noteLeft);
             return (noteLeft);
 
         case 'Right':
             const noteRight = new RhythmNote(time, 'Right');
+            nextJudgeDir = 'Right';
             notesArr.push(noteRight);
             return (noteRight);
 
@@ -803,19 +952,19 @@ function createNote(direction, time) {
 function noteEffect() {
 
     imageMode(CENTER);
-    if(judgeVal === 'perfect' && judgeEffTimer <= 30) {
-        image(judge_perfect, width/2, height/2);
+    if (judgeVal === 'perfect' && judgeEffTimer <= 30) {
+        image(judge_perfect, width / 2, height / 2);
         judgeEffTimer++;
     }
-    else if(judgeVal === 'good' && judgeEffTimer <= 30) {
-        image(judge_good, width/2, height/2);
+    else if (judgeVal === 'good' && judgeEffTimer <= 30) {
+        image(judge_good, width / 2, height / 2);
         judgeEffTimer++;
     }
-    else if(judgeVal === 'miss' && judgeEffTimer <= 30) {
-        image(judge_miss, width/2, height/2);
+    else if (judgeVal === 'miss' && judgeEffTimer <= 30) {
+        image(judge_miss, width / 2, height / 2);
         judgeEffTimer++;
     }
-    else if(judgeEffTimer > 30) {
+    else if (judgeEffTimer > 30) {
         judgeVal = 'nothing';
         judgeEffTimer = 0;
     }
