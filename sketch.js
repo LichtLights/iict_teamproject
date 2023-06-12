@@ -291,35 +291,47 @@ function gameIngame() {
 
                 case 112:
                     const gamenote1 = createNote('Down', 112);
+                    console.log(musicTimer);
                     break;
 
                 case 267:
                     const gamenote2 = createNote('Up', 267);
+                    console.log(musicTimer);
                     break;
                 
                 case 702:
                     const gamenote3 = createNote('Up', 702);
+                    console.log(musicTimer);
                     break;
 
                 case 820:
                     const gamenote4 = createNote('Right', 820);
+                    console.log(musicTimer);
                     break;
                 
                 case 949:
                     const gamenote5 = createNote('Left', 949);
+                    console.log(musicTimer);
                     break;
+
                 case 1077:
                     const gamenote6 = createNote('Down', 1077);
+                    console.log(musicTimer);
                     break;
+
                 case 1193:
                     const gamenote7 = createNote('Up', 1193);
+                    console.log(musicTimer);
                     break;
+
                 case 1305:
                     const gamenote8 = createNote('Up', 1305);
                     break;
+
                 case 1411:
                     const gamenote9 = createNote('Down', 1411);
                     break;
+
                 case 1532:
                     const gamenote10 = createNote('Down', 1532);
                     break;
@@ -390,33 +402,43 @@ function gameIngame() {
                 case 3188:
                     const gamenote27 = createNote('Right', 3188);
                     break;
+
                 case 3358:
                     const gamenote28 = createNote('Up', 3358);
                     break;
+
                 case 3442:
                     const gamenote29 = createNote('Up', 3442);
                     break;
+
                 case 3526:
                     const gamenote30 = createNote('Right', 3526);
                     break;
+
                 case 3607:
                     const gamenote31 = createNote('Left', 3607);
                     break;
+
                 case 3692:
                     const gamenote32 = createNote('Up', 3692);
                     break;
+
                 case 3768:
                     const gamenote33 = createNote('Left', 3768);
                     break;
+
                 case 4007:
                     const gamenote34 = createNote('Up', 4007);
                     break;
+
                 case 4083:
                     const gamenote35 = createNote('Down', 4083);
                     break;
+
                 case 4200:
                     const gamenote36 = createNote('Right', 4200);
                     break;
+
                 default:
                     break;
             }
