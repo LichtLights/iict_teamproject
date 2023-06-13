@@ -1,5 +1,6 @@
 var capture;
 var trackingData;
+var ctracker;
 
 var gameState = 'title';
 
@@ -9,6 +10,8 @@ var isColorTrackOn = false;
 var score = 0;
 
 var mainMusicStarted = false;
+
+var storyCutnum = 0;
 
 var tutorialTimer = 0;  // 튜토리얼용 타이머
 var tutorialPass = false;
@@ -24,6 +27,7 @@ var noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
 var judgeEffTimer = 0;
 var judgeVal = 'nothing';
 var judgeDir = 'nothing';
+var nextJudgeDir = 'nothing';
 
 let trPosArr = [];
 
@@ -57,11 +61,19 @@ function preload() {
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
 
+    cut_intro01 = loadImage('../src/Cutscene/intro01.png');
+    cut_intro02 = loadImage('../src/Cutscene/intro02.png');
+
     btn_nxt_normal = loadImage('../src/Buttons/btn_nxt_normal.png');
     btn_nxt_pressed = loadImage('../src/Buttons/btn_nxt_pressed.png');
+    btn_skip = loadImage('../src/Buttons/btn_skip.png');
 
+    // bg musics
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
     main_music = loadSound('../src/Sounds/Opening.wav');
+
+    // sfx
+    sfx_stageClear = loadSound('../src/Sounds/SE/StageClear.wav');
 
     // dog
     dog0_idle = loadImage('../src/Dog/dog0_idle.png');
@@ -138,13 +150,55 @@ function mainTitle() {
         image(bg_main, 0, 0);
     }
 
-    if(!mainMusicStarted) {
+    if (!mainMusicStarted) {
         main_music.play();
         mainMusicStarted = true;
     }
 }
 
 function story() {
+
+    if (gameState === 'story') {
+
+        switch (storyCutnum) {
+
+            case 0:
+                cut_intro01.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_intro01, 0, 0);
+
+                image(btn_skip, 690, 0);
+
+                textAlign(CENTER, CENTER);
+                textFont(fontIngameL);
+                textSize(24);
+                fill(250, 239, 208);
+                const storyText1 = '강아지 토토는 오늘도 주인을 지키기 위해 마법의 나라로 모험을 떠납니다.';
+                text(storyText1, width / 2, 50 * (height / 60));
+
+                break;
+
+            case 1:
+                cut_intro02.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_intro02, 0, 0);
+
+                image(btn_skip, 690, 0);
+
+                textAlign(CENTER, CENTER);
+                textFont(fontIngameL);
+                textSize(24);
+                fill(250, 239, 208);
+                const storyText2 = '주인의 잠을 깨우려는 무시무시한 드래곤과 조우하고,';
+                const storyText3 = '토토는 맞서 싸울 준비를 합니다...!';
+                text(storyText2, width / 2, 50 * (height / 60));
+                text(storyText3, width / 2, 53 * (height / 60));
+                break;
+
+            default:
+                break;
+        }
+    }
 
 }
 
@@ -180,7 +234,7 @@ function tutorial_1() {
         textSize(18);
         const colorInstructions2 = '착용하신 옷, 장신구 등과 겹치지 않는 색을 선택하시는 것을 권장합니다.';
         text(colorInstructions2, width / 2, 54 * (height / 60));
-
+        imageMode(CORNER);
     }
 }
 
@@ -247,10 +301,11 @@ function tutorial_3() {
         }
 
         if (tutorialPass && tutorialTimer >= 230) {
-            if(mainMusicStarted) {
+            if (mainMusicStarted) {
                 main_music.stop();
                 mainMusicStarted = false;
             }
+            tutorialTimer = 0;
             gameState = 'gameIngame';
         }
         else if (!tutorialPass && tutorialTimer >= 230) {
@@ -318,8 +373,16 @@ function gameIngame() {
             imageMode(CORNER);
             bg_game.resize(800, 600);
             image(bg_game, 0, 0);
+
             musicTimer++;
             inGameAnim();
+
+            const inGameScore = 'Score: ' + score;
+            textAlign(CORNER);
+            textSize(26);
+            fill(250, 239, 208);
+            text(inGameScore, 50, 50);
+            textAlign(CENTER, CENTER);
 
             switch (musicTimer) {
 
@@ -467,6 +530,14 @@ function gameIngame() {
                     const gamenote36 = createNote('Right', 2100);
                     break;
 
+
+
+                // 3540 음악이 끝남
+                case 3570:
+                    sfx_stageClear.play();
+                    gameState = 'gameClear';
+                    break;
+
                 default:
                     break;
             }
@@ -478,6 +549,7 @@ function gameIngame() {
 function inGameAnim() {
 
     if (gameStarted) {
+        // idle
         if (noteTimer == 0 && judgeEffTimer == 0) {
             // dog
             dog0_idle.resize(800, 600);
@@ -489,6 +561,7 @@ function inGameAnim() {
             imageMode(CORNER);
             image(dragon0_idle, 0, 0);
         }
+        // rdy
         else if (noteTimer > 0 && judgeVal == 'nothing') {
             // dog
             dog0_ready.resize(800, 600);
@@ -515,6 +588,7 @@ function inGameAnim() {
             }
 
         }
+        // hit
         else if (judgeEffTimer > 0 && (judgeVal == 'perfect' || judgeVal == 'good')) {
 
             if (judgeDir == 'Up') {
@@ -563,6 +637,7 @@ function inGameAnim() {
             }
 
         }
+        // miss
         else if (judgeEffTimer > 0 && judgeVal == 'miss') {
             // dog
             dog0_miss.resize(800, 600);
@@ -602,7 +677,17 @@ function inGameAnim() {
 
 function gameClear() {
     if (gameState === 'gameClear') {
-        background(0);
+        background(64, 48, 74);
+
+        imageMode(CENTER);
+        image(btn_nxt_normal, width / 2, 3 * height / 4);
+        imageMode(CORNER);
+
+        if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+            imageMode(CENTER);
+            image(btn_nxt_pressed, width / 2, 3 * height / 4);
+            imageMode(CORNER);
+        }
 
     }
 }
@@ -620,10 +705,21 @@ function mouseClicked() {
     switch (gameState) {
 
         case 'title':
-            gameState = 'tutorial_1';
+            gameState = 'story';
             break;
 
         case 'story':
+            if (mouseX >= 690 && mouseX <= 800 && mouseY >= 0 && mouseY <= 50) {
+                gameState = 'tutorial_1';
+            }
+            else if (storyCutnum === 0) {
+                storyCutnum = 1;
+            }
+            else if (storyCutnum === 1) {
+                gameState = 'tutorial_1';
+
+                storyCutnum = 0;
+            }
             break;
 
         case 'tutorial_1':
@@ -653,6 +749,38 @@ function mouseClicked() {
             break;
 
         case 'gameClear':
+
+            trackingStop();
+
+            if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+                gameState = 'title';
+
+                // 변수 초기화
+                isColorTrackOn = false;
+
+                score = 0;
+
+                mainMusicStarted = false;
+
+                storyCutnum = 0;
+
+                tutorialTimer = 0;  // 튜토리얼용 타이머
+                tutorialPass = false;
+                tutorialAgain = false;
+
+                musicTimer = 0;
+                pStrokeTimer = 0;   // 플레이어 stroke 시간 정보 저장
+                ingameTimer = 0;    // 게임 시작 후 타이머
+                gameStarted = false;
+                musicStarted = false;
+
+                noteTimer = 0;      // 애니메이션 프레임 계산용 노트 타이머
+                judgeEffTimer = 0;
+                judgeVal = 'nothing';
+                judgeDir = 'nothing';
+                nextJudgeDir = 'nothing';
+            }
+
             break;
 
         case 'gameDefeat':
@@ -683,7 +811,7 @@ function trackingStart() {
         // colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
         trackingColor = new tracking.ColorTracker(selectedColor);
 
-        tracking.track('#myVideo', trackingColor); // start the tracking of the colors above on the camera in p5
+        ctracker = tracking.track('#myVideo', trackingColor); // start the tracking of the colors above on the camera in p5
 
         //start detecting the tracking
         trackingColor.on('track', function (event) { //this happens each time the tracking happens
@@ -691,6 +819,10 @@ function trackingStart() {
         });
         isColorTrackOn = true;
     }
+}
+
+function trackingStop() {
+    ctracker.stop();
 }
 
 // 매 프레임 화면 다시 그리기
@@ -850,13 +982,13 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
-                judgeDir = pstroke;
+                judgeDir = this.direction;
                 score += 100;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
-                judgeDir = pstroke;
+                judgeDir = this.direction;
                 score += 50;
                 return "good";
             }
