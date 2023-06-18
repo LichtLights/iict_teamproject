@@ -210,10 +210,6 @@ function story() {
 
                 image(btn_skip, 690, 0);
 
-                rectMode(CENTER);
-                fill(120, 90);
-                rect(width / 2, 5 * height / 6, 750, 150);
-
                 const storyText1 = '강아지 토토는 오늘도 주인을 지키기 위해 마법의 나라로 모험을 떠납니다.';
                 textAlign(CENTER, CENTER);
 
@@ -234,10 +230,6 @@ function story() {
                 image(cut_intro02, 0, 0);
 
                 image(btn_skip, 690, 0);
-
-                rectMode(CENTER);
-                fill(120, 90);
-                rect(width / 2, 5 * height / 6, 750, 150);
 
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
@@ -889,10 +881,6 @@ function gameEnding() {
 
                 image(btn_skip, 690, 0);
 
-                rectMode(CENTER);
-                fill(120, 90);
-                rect(width / 2, 5 * height / 6, 750, 150);
-
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
                 textSize(24);
@@ -915,10 +903,6 @@ function gameEnding() {
                 image(cut_ending02, 0, 0);
 
                 image(btn_skip, 690, 0);
-
-                rectMode(CENTER);
-                fill(120, 90);
-                rect(width / 2, 5 * height / 6, 750, 150);
 
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
@@ -1096,8 +1080,18 @@ function mouseClicked() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function setup() {
-    createCanvas(800, 600);
+    let canvas = createCanvas(800, 600);
     frameRate(30);
+
+
+    canvas.parent('canvas-container');
+
+    // Center the canvas using CSS styles
+    let container = select('#canvas-container');
+    container.style('display', 'flex');
+    container.style('justify-content', 'center');
+    container.style('align-items', 'center');
+
 
     capture = createCapture(VIDEO); //capture the webcam
     capture.position(0, 0); //move the capture to the top left
