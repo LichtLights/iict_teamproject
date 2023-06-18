@@ -15,6 +15,8 @@ var mainMusicStarted = false;
 var introMusicStarted = false;
 var endMusicStarted = false;
 
+var battleBgChange = false;
+
 var storyCutnum = 0;
 var tutoCutnum = 0;
 var endingCutnum = 0;
@@ -66,6 +68,7 @@ function preload() {
 
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
+    bg_game = loadImage('../src/background/battle02.png');
 
     // cutscenes
     cut_tuto1 = loadImage('../src/Cutscene/MoveGuide.png');
@@ -453,12 +456,17 @@ function gameIngame() {
             }
 
             imageMode(CORNER);
-            bg_game.resize(800, 600);
-            image(bg_game, 0, 0);
+            if (!battleBgChange) {
+                bg_game.resize(800, 600);
+                image(bg_game, 0, 0);
+            }
+            else {
+                bg_game2.resize(800, 600);
+                image(bg_game2, 0, 0);
+            }
 
             musicTimer++;
             inGameAnim();
-            inGameDHP();
 
             if (keyIsPressed) {
                 console.log(musicTimer);
@@ -636,6 +644,7 @@ function gameIngame() {
                 case 2530:
                     const gamenote39 = createNote('Left', 2530);
                     break;
+
                 case 2600:
                     const gamenote40 = createNote('Up', 2600);
                     break;
@@ -650,6 +659,7 @@ function gameIngame() {
 
                 case 2813:
                     const gamenote43 = createNote('Down', 2813);
+                    battleBgChange = true;
                     break;
 
                 case 2883:
@@ -696,21 +706,6 @@ function gameIngame() {
         }
 
     }
-}
-
-function inGameDHP() {
-
-    healthWidth = map(score, 0, scoreMax, width, 0);
-
-    // health bar background
-    rectMode(CORNER);
-    fill(255);
-    rect(0, 0, width, 30);
-
-    // health bar
-    fill(219, 0, 0);
-    rect(0, 0, healthWidth, 30);
-
 }
 
 function inGameAnim() {
@@ -1025,6 +1020,8 @@ function mouseClicked() {
                 mainMusicStarted = false;
                 introMusicStarted = false;
                 endMusicStarted = false;
+
+                battleBgChange = false;
 
                 storyCutnum = 0;
                 tutoCutnum = 0;
