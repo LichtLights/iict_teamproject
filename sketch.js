@@ -12,6 +12,7 @@ var score = 0;
 var mainMusicStarted = false;
 
 var storyCutnum = 0;
+var endingCutnum = 0;
 
 var tutorialTimer = 0;  // 튜토리얼용 타이머
 var tutorialPass = false;
@@ -61,12 +62,24 @@ function preload() {
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
 
+    // cutscenes
     cut_intro01 = loadImage('../src/Cutscene/intro01.png');
     cut_intro02 = loadImage('../src/Cutscene/intro02.png');
 
+    cut_clear = loadImage('../src/Cutscene/clear_02.png')
+
+    cut_ending01 = loadImage('../src/Cutscene/Ending01.png');
+    cut_ending02 = loadImage('../src/Cutscene/Ending02.png');
+
+    cut_retry = loadImage('../src/Cutscene/retry.png');
+
+    // buttons
     btn_nxt_normal = loadImage('../src/Buttons/btn_nxt_normal.png');
     btn_nxt_pressed = loadImage('../src/Buttons/btn_nxt_pressed.png');
     btn_skip = loadImage('../src/Buttons/btn_skip.png');
+
+    btn_retry = loadImage('../src/Buttons/btn_retry.png');
+    btn_retry_pressed = loadImage('../src/Buttons/btn_retry_pressed.png');
 
     // bg musics
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
@@ -136,8 +149,12 @@ function stateSelector() {
             gameClear();
             break;
 
-        case 'ending':
+        case 'gameEnding':
             gameEnding();
+            break;
+
+        case 'gameRetry':
+            gameRetry();
             break;
 
         default:
@@ -749,6 +766,10 @@ function gameClear() {
     if (gameState === 'gameClear') {
         background(64, 48, 74);
 
+        imageMode(CORNER);
+        cut_clear.resize(800, 600);
+        image(cut_clear, 0, 0);
+
         imageMode(CENTER);
         image(btn_nxt_normal, width / 2, 3 * height / 4);
         imageMode(CORNER);
@@ -764,8 +785,73 @@ function gameClear() {
 
 function gameEnding() {
     if (gameState === 'gameEnding') {
-        background(0);
+        background(64, 48, 74);
 
+        switch (endingCutnum) {
+
+            case 0:
+                cut_ending01.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_ending01, 0, 0);
+
+                image(btn_skip, 690, 0);
+
+                textAlign(CENTER, CENTER);
+                textFont(fontIngameL);
+                textSize(24);
+                fill(250, 239, 208);
+                const endingText1 = '토토는 오늘도 무시무시한 드래곤을 물리치고 인간 세상을 지켜냈습니다.';
+                text(endingText1, width / 2, 50 * (height / 60));
+                const endingText2 = '동트는 하늘을 뒤로 하고 완전히 아침이 오기 전에 서둘러 집으로 돌아가야 해요.';
+                text(endingText2, width / 2, 53 * (height / 60));
+
+                break;
+
+            case 1:
+                cut_ending02.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_ending02, 0, 0);
+
+                image(btn_skip, 690, 0);
+
+                textAlign(CENTER, CENTER);
+                textFont(fontIngameL);
+                textSize(24);
+                fill(250, 239, 208);
+
+                const endingText3 = '사랑하는 주인이 반겨주는 집으로요!';
+                text(endingText3, width / 2, 50 * (height / 60));
+
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+function gameRetry() {
+    if (gameState === 'gameRetry') {
+        background(64, 48, 74);
+        cut_retry.resize(800, 600);
+        imageMode(CORNER);
+        image(cut_retry, 0, 0);
+
+        const endingInstructions = '플레이 해주셔서 감사합니다!';
+        textAlign(CENTER, CENTER);
+        textSize(28);
+        fill(250, 239, 208);
+        text(endingInstructions, width / 2, height / 2 - 50);
+
+        imageMode(CENTER);
+        image(btn_retry, width / 2, 3 * height / 4);
+        imageMode(CORNER);
+
+        if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+            imageMode(CENTER);
+            image(btn_retry_pressed, width / 2, 3 * height / 4);
+            imageMode(CORNER);
+        }
     }
 }
 
@@ -797,7 +883,7 @@ function mouseClicked() {
                 selectedColor = 'red';
             }
             else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
-                selectedColor = 'blue';
+                selectedColor = 'cyan';
             }
             else if (mouseX >= 2 * width / 3) {
                 selectedColor = 'yellow';
@@ -823,7 +909,7 @@ function mouseClicked() {
             trackingStop();
 
             if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
-                gameState = 'title';
+                gameState = 'gameEnding';
 
                 // 변수 초기화
                 isColorTrackOn = false;
@@ -853,7 +939,24 @@ function mouseClicked() {
 
             break;
 
-        case 'gameDefeat':
+        case 'gameEnding':
+            if (mouseX >= 690 && mouseX <= 800 && mouseY >= 0 && mouseY <= 50) {
+                gameState = 'gameRetry';
+            }
+            else if (endingCutnum === 0) {
+                endingCutnum = 1;
+            }
+            else if (endingCutnum === 1) {
+                gameState = 'gameRetry';
+
+                endingCutnum = 0;
+            }
+            break;
+
+        case 'gameRetry':
+            if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+                gameState = 'title';
+            }
             break;
 
         default:
