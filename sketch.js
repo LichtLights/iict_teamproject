@@ -377,7 +377,7 @@ function gameIngame() {
             musicTimer++;
             inGameAnim();
 
-            if (keyIsPressed){
+            if (keyIsPressed) {
                 console.log(musicTimer);
             }
 
@@ -545,18 +545,18 @@ function gameIngame() {
                 case 2462:
                     const gamenote37 = createNote('Down', 2462);
                     break;
-                    
+
                 case 2496:
                     const gamenote38 = createNote('Up', 2496);
                     break;
-                    
+
                 case 2530:
                     const gamenote39 = createNote('Left', 2530);
                     break;
                 case 2600:
                     const gamenote40 = createNote('Up', 2600);
                     break;
-                    
+
                 case 2668:
                     const gamenote41 = createNote('Down', 2668);
                     break;
@@ -578,22 +578,27 @@ function gameIngame() {
                 case 3023:
                     const gamenote46 = createNote('Up', 3023);
                     break;
-                
+
                 case 3095:
                     const gamenote47 = createNote('Down', 3095);
                     break;
+
                 case 3167:
                     const gamenote48 = createNote('Left', 3167);
                     break;
+
                 case 3234:
                     const gamenote49 = createNote('Up', 3234);
                     break;
+
                 case 3306:
                     const gamenote50 = createNote('Down', 3306);
                     break;
+
                 case 3392:
                     const gamenote51 = createNote('Right', 3392);
                     break;
+
                 // 3540 음악이 끝남
                 case 3570:
                     sfx_stageClear.play();
@@ -786,10 +791,10 @@ function mouseClicked() {
 
         case 'tutorial_1':
             if (mouseX <= width / 3) {
-                selectedColor = 'magenta';
+                selectedColor = 'red';
             }
             else if (mouseX >= width / 3 && mouseX <= 2 * width / 3) {
-                selectedColor = 'cyan';
+                selectedColor = 'blue';
             }
             else if (mouseX >= 2 * width / 3) {
                 selectedColor = 'yellow';
@@ -867,20 +872,48 @@ function setup() {
     capture.id("myVideo"); //give the capture an ID so we can use it in the tracker below.
 }
 
+function customColorSetRed(r, g, b) {
+    if (r < 50 && g > 200 && b < 50) {
+        return true;
+    }
+    return false;
+};
+
+function customColorSetBlue(r, g, b) {
+    if (r < TODO && g > TODO && b < TODO) {
+        return true;
+    }
+    return false;
+};
+
 // 마법봉 tracking
 function trackingStart() {
     if (isColorTrackOn == false) {
         // colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
         trackingColor = new tracking.ColorTracker(selectedColor);
+        switch (selectedColor) {
 
-        ctracker = tracking.track('#myVideo', trackingColor); // start the tracking of the colors above on the camera in p5
+            case 'red':
+                trackingColor = new tracking.ColorTracker.registerColor('green', customColorSetRed(r, g, b));
+                break;
 
-        //start detecting the tracking
-        trackingColor.on('track', function (event) { //this happens each time the tracking happens
-            trackingData = event.data // break the trackingjs data into a global so we can access it with p5
-        });
-        isColorTrackOn = true;
+            case 'blue':
+                trackingColor = new tracking.ColorTracker.registerColor('blue', customColorSetBlue(r, g, b));
+                break;
+
+            case 'yellow':
+                trackingColor = new tracking.ColorTracker(selectedColor);
+                break;
+        }
     }
+
+    ctracker = tracking.track('#myVideo', trackingColor); // start the tracking of the colors above on the camera in p5
+
+    //start detecting the tracking
+    trackingColor.on('track', function (event) { //this happens each time the tracking happens
+        trackingData = event.data // break the trackingjs data into a global so we can access it with p5
+    });
+    isColorTrackOn = true;
 }
 
 function trackingStop() {
@@ -919,6 +952,8 @@ function drawTrackingEffect() {
 
         beginShape();
         for (let i = 0; i < trPosArr.length; i++) {
+            trac_eff.resize(71 - i * 5, 82 - i * 5);
+            // trac_eff.resize(71, 82);
             image(trac_eff, trPosArr[i].x, trPosArr[i].y);
         }
         endShape();
