@@ -2445,27 +2445,21 @@
     });
 
     tracking.ColorTracker.registerColor('red', function(r, g, b) {
-      var threshold = 50,
-        dx = r - 55,
-        dy = g - 155,
-        dz = b - 155;
-  
-      if ((r - b) >= threshold && (g - b) >= threshold) {
+      // Custom color matching logic for red
+      // Modify the conditions below to define the color range for red
+      if (r > 200 && g < 100 && b < 100) {
         return true;
       }
-      return dx * dx + dy * dy + dz * dz < 10000;
+      return false;
     });
-
+    
     tracking.ColorTracker.registerColor('blue', function(r, g, b) {
-      var threshold = 50,
-        dx = r - 155,
-        dy = g - 155,
-        dz = b - 55;
-  
-      if ((r - b) >= threshold && (g - b) >= threshold) {
+      // Custom color matching logic for blue
+      // Modify the conditions below to define the color range for blue
+      if (r < 100 && g < 100 && b > 200) {
         return true;
       }
-      return dx * dx + dy * dy + dz * dz < 10000;
+      return false;
     });
   
   
