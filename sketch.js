@@ -894,7 +894,7 @@ function trackingStart() {
         switch (selectedColor) {
 
             case 'red':
-                trackingColor = new tracking.ColorTracker.registerColor('green', customColorSetRed(r, g, b));
+                trackingColor = new tracking.ColorTracker.registerColor('red', customColorSetRed(r, g, b));
                 break;
 
             case 'blue':
@@ -952,8 +952,7 @@ function drawTrackingEffect() {
 
         beginShape();
         for (let i = 0; i < trPosArr.length; i++) {
-            trac_eff.resize(71 - i * 5, 82 - i * 5);
-            // trac_eff.resize(71, 82);
+            // trac_eff.resize(71 - i * 5, 82 - i * 5);
             image(trac_eff, trPosArr[i].x, trPosArr[i].y);
         }
         endShape();
