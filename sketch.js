@@ -68,7 +68,7 @@ function preload() {
 
     bg_main = loadImage('../src/background/Main.png');
     bg_game = loadImage('../src/background/battle.png');
-    bg_game = loadImage('../src/background/battle02.png');
+    bg_game2 = loadImage('../src/background/battle02.png');
 
     // cutscenes
     cut_tuto1 = loadImage('../src/Cutscene/MoveGuide.png');
