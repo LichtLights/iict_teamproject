@@ -8,10 +8,13 @@ var selectedColor;
 var isColorTrackOn = false;
 
 var score = 0;
+var scoreMax = 16000;
+var healthWidth = 800;
 
 var mainMusicStarted = false;
 
 var storyCutnum = 0;
+var tutoCutnum = 0;
 var endingCutnum = 0;
 
 var tutorialTimer = 0;  // 튜토리얼용 타이머
@@ -63,6 +66,10 @@ function preload() {
     bg_game = loadImage('../src/background/battle.png');
 
     // cutscenes
+    cut_tuto1 = loadImage('../src/Cutscene/MoveGuide.png');
+    cut_tuto2 = loadImage('../src/Cutscene/MoveGuide02.png');
+    cut_tuto3 = loadImage('../src/Cutscene/PlayGuide.png');
+
     cut_intro01 = loadImage('../src/Cutscene/intro01.png');
     cut_intro02 = loadImage('../src/Cutscene/intro02.png');
 
@@ -135,6 +142,10 @@ function stateSelector() {
 
         case 'tutorial_2':
             tutorial_2();
+            break;
+
+        case 'tutorial_2_1':
+            tutorial_2_1();
             break;
 
         case 'tutorial_3':
@@ -280,6 +291,36 @@ function tutorial_2() {
     }
 }
 
+function tutorial_2_1() {
+    if (gameState === 'tutorial_2_1') {
+
+        switch (tutoCutnum) {
+
+            case 0:
+                cut_tuto1.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_tuto1, 0, 0);
+                break;
+
+            case 1:
+                cut_tuto2.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_tuto2, 0, 0);
+                break;
+
+            case 2:
+                cut_tuto3.resize(800, 600);
+                imageMode(CORNER);
+                image(cut_tuto3, 0, 0);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+}
+
 function tutorial_3() {
     if (gameState === 'tutorial_3') {
         background(64, 48, 74);
@@ -396,6 +437,7 @@ function gameIngame() {
 
             musicTimer++;
             inGameAnim();
+            inGameDHP();
 
             if (keyIsPressed) {
                 console.log(musicTimer);
@@ -588,9 +630,11 @@ function gameIngame() {
                 case 2813:
                     const gamenote43 = createNote('Down', 2813);
                     break;
+
                 case 2883:
                     const gamenote44 = createNote('Right', 2883);
                     break;
+
                 case 2951:
                     const gamenote45 = createNote('Up', 2951);
                     break;
@@ -631,6 +675,21 @@ function gameIngame() {
         }
 
     }
+}
+
+function inGameDHP() {
+
+    healthWidth = map(score, 0, scoreMax, width, 0);
+
+    // health bar background
+    rectMode(CORNER);
+    fill(255);
+    rect(0, 0, width, 30);
+
+    // health bar
+    fill(219, 0, 0);
+    rect(0, 0, healthWidth, 30);
+
 }
 
 function inGameAnim() {
@@ -894,7 +953,20 @@ function mouseClicked() {
 
         case 'tutorial_2':
             if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+                gameState = 'tutorial_2_1';
+            }
+            break;
+
+        case 'tutorial_2_1':
+            if (tutoCutnum === 0) {
+                tutoCutnum = 1;
+            }
+            else if (tutoCutnum === 1) {
+                tutoCutnum = 2;
+            }
+            else if(tutoCutnum === 2) {
                 gameState = 'tutorial_3';
+                tutoCutnum = 0;
             }
             break;
 
