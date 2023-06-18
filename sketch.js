@@ -12,6 +12,8 @@ var scoreMax = 16000;
 var healthWidth = 800;
 
 var mainMusicStarted = false;
+var introMusicStarted = false;
+var endMusicStarted = false;
 
 var storyCutnum = 0;
 var tutoCutnum = 0;
@@ -90,7 +92,9 @@ function preload() {
 
     // bg musics
     game_music = loadSound('../src/Sounds/InGameMusic.wav');
-    main_music = loadSound('../src/Sounds/Opening.wav');
+    main_music = loadSound('../src/Sounds/mainMusic.wav');
+    end_music = loadSound('../src/Sounds/Ending.wav');
+    intro_music = loadSound('../src/Sounds/Opening.wav');
 
     // sfx
     sfx_stageClear = loadSound('../src/Sounds/SE/StageClear.wav');
@@ -182,7 +186,7 @@ function mainTitle() {
     }
 
     if (!mainMusicStarted) {
-        main_music.play();
+        main_music.loop();
         mainMusicStarted = true;
     }
 }
@@ -190,6 +194,12 @@ function mainTitle() {
 function story() {
 
     if (gameState === 'story') {
+
+        main_music.stop();
+        if (!introMusicStarted) {
+            intro_music.loop();
+            introMusicStarted = true;
+        }
 
         switch (storyCutnum) {
 
@@ -200,11 +210,20 @@ function story() {
 
                 image(btn_skip, 690, 0);
 
+                rectMode(CENTER);
+                fill(120, 90);
+                rect(width / 2, 5 * height / 6, 750, 150);
+
+                const storyText1 = '강아지 토토는 오늘도 주인을 지키기 위해 마법의 나라로 모험을 떠납니다.';
                 textAlign(CENTER, CENTER);
+
                 textFont(fontIngameL);
                 textSize(24);
+                fill(0);
+                text(storyText1, width / 2 + 2, 50 * (height / 60) + 2);
+
+                textSize(24);
                 fill(250, 239, 208);
-                const storyText1 = '강아지 토토는 오늘도 주인을 지키기 위해 마법의 나라로 모험을 떠납니다.';
                 text(storyText1, width / 2, 50 * (height / 60));
 
                 break;
@@ -216,12 +235,21 @@ function story() {
 
                 image(btn_skip, 690, 0);
 
+                rectMode(CENTER);
+                fill(120, 90);
+                rect(width / 2, 5 * height / 6, 750, 150);
+
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
                 textSize(24);
-                fill(250, 239, 208);
+                fill(0);
                 const storyText2 = '주인의 잠을 깨우려는 무시무시한 드래곤과 조우하고,';
                 const storyText3 = '토토는 맞서 싸울 준비를 합니다...!';
+                text(storyText2, width / 2 + 2, 50 * (height / 60) + 2);
+                text(storyText3, width / 2 + 2, 53 * (height / 60) + 2);
+
+                textSize(24);
+                fill(250, 239, 208);
                 text(storyText2, width / 2, 50 * (height / 60));
                 text(storyText3, width / 2, 53 * (height / 60));
                 break;
@@ -367,6 +395,7 @@ function tutorial_3() {
                 mainMusicStarted = false;
             }
             tutorialTimer = 0;
+            intro_music.stop();
             gameState = 'gameIngame';
         }
         else if (!tutorialPass && tutorialTimer >= 230) {
@@ -846,6 +875,11 @@ function gameEnding() {
     if (gameState === 'gameEnding') {
         background(64, 48, 74);
 
+        if (!endMusicStarted) {
+            end_music.loop();
+            endMusicStarted = true;
+        }
+
         switch (endingCutnum) {
 
             case 0:
@@ -855,13 +889,22 @@ function gameEnding() {
 
                 image(btn_skip, 690, 0);
 
+                rectMode(CENTER);
+                fill(120, 90);
+                rect(width / 2, 5 * height / 6, 750, 150);
+
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
                 textSize(24);
-                fill(250, 239, 208);
+                fill(0);
                 const endingText1 = '토토는 오늘도 무시무시한 드래곤을 물리치고 인간 세상을 지켜냈습니다.';
-                text(endingText1, width / 2, 50 * (height / 60));
                 const endingText2 = '동트는 하늘을 뒤로 하고 완전히 아침이 오기 전에 서둘러 집으로 돌아가야 해요.';
+                text(endingText1, width / 2 + 2, 50 * (height / 60) + 2);
+                text(endingText2, width / 2 + 2, 53 * (height / 60) + 2);
+
+                textSize(24);
+                fill(250, 239, 208);
+                text(endingText1, width / 2, 50 * (height / 60));
                 text(endingText2, width / 2, 53 * (height / 60));
 
                 break;
@@ -873,12 +916,19 @@ function gameEnding() {
 
                 image(btn_skip, 690, 0);
 
+                rectMode(CENTER);
+                fill(120, 90);
+                rect(width / 2, 5 * height / 6, 750, 150);
+
                 textAlign(CENTER, CENTER);
                 textFont(fontIngameL);
                 textSize(24);
-                fill(250, 239, 208);
-
+                fill(0);
                 const endingText3 = '사랑하는 주인이 반겨주는 집으로요!';
+                text(endingText3, width / 2 + 2, 50 * (height / 60) + 2);
+
+                textSize(24);
+                fill(250, 239, 208);
                 text(endingText3, width / 2, 50 * (height / 60));
 
                 break;
@@ -964,7 +1014,7 @@ function mouseClicked() {
             else if (tutoCutnum === 1) {
                 tutoCutnum = 2;
             }
-            else if(tutoCutnum === 2) {
+            else if (tutoCutnum === 2) {
                 gameState = 'tutorial_3';
                 tutoCutnum = 0;
             }
@@ -989,8 +1039,12 @@ function mouseClicked() {
                 score = 0;
 
                 mainMusicStarted = false;
+                introMusicStarted = false;
+                endMusicStarted = false;
 
                 storyCutnum = 0;
+                tutoCutnum = 0;
+                endingCutnum = 0;
 
                 tutorialTimer = 0;  // 튜토리얼용 타이머
                 tutorialPass = false;
@@ -1007,6 +1061,7 @@ function mouseClicked() {
                 judgeVal = 'nothing';
                 judgeDir = 'nothing';
                 nextJudgeDir = 'nothing';
+
             }
 
             break;
@@ -1027,6 +1082,7 @@ function mouseClicked() {
 
         case 'gameRetry':
             if (mouseX >= width / 2 - width / 4 / 2 && mouseX <= width / 2 + width / 4 / 2 && mouseY >= 3 * height / 4 - height / 6 && mouseY <= 3 * height / 4 + height / 6) {
+                end_music.stop();
                 gameState = 'title';
             }
             break;
