@@ -2443,6 +2443,30 @@
       }
       return dx * dx + dy * dy + dz * dz < 10000;
     });
+
+    tracking.ColorTracker.registerColor('red', function(r, g, b) {
+      var threshold = 50,
+        dx = r - 55,
+        dy = g - 155,
+        dz = b - 155;
+  
+      if ((r - b) >= threshold && (g - b) >= threshold) {
+        return true;
+      }
+      return dx * dx + dy * dy + dz * dz < 10000;
+    });
+
+    tracking.ColorTracker.registerColor('blue', function(r, g, b) {
+      var threshold = 50,
+        dx = r - 155,
+        dy = g - 155,
+        dz = b - 55;
+  
+      if ((r - b) >= threshold && (g - b) >= threshold) {
+        return true;
+      }
+      return dx * dx + dy * dy + dz * dz < 10000;
+    });
   
   
     // Caching neighbour i/j offset values.

@@ -74,6 +74,9 @@ function preload() {
 
     // sfx
     sfx_stageClear = loadSound('../src/Sounds/SE/StageClear.wav');
+    sfx_KeySE1 = loadSound('../src/Sounds/SE/KeySE1.mp3');
+    sfx_KeySE2 = loadSound('../src/Sounds/SE/KeySE2.mp3');
+    sfx_KeySE3 = loadSound('../src/Sounds/SE/KeySE3.mp3');
 
     // dog
     dog0_idle = loadImage('../src/Dog/dog0_idle.png');
@@ -133,8 +136,8 @@ function stateSelector() {
             gameClear();
             break;
 
-        case 'gameDefeat':
-            gameDefeat();
+        case 'ending':
+            gameEnding();
             break;
 
         default:
@@ -759,8 +762,8 @@ function gameClear() {
     }
 }
 
-function gameDefeat() {
-    if (gameState === 'gameDefeat') {
+function gameEnding() {
+    if (gameState === 'gameEnding') {
         background(0);
 
     }
@@ -872,39 +875,11 @@ function setup() {
     capture.id("myVideo"); //give the capture an ID so we can use it in the tracker below.
 }
 
-function customColorSetRed(r, g, b) {
-    if (r < 50 && g > 200 && b < 50) {
-        return true;
-    }
-    return false;
-};
-
-function customColorSetBlue(r, g, b) {
-    if (r < TODO && g > TODO && b < TODO) {
-        return true;
-    }
-    return false;
-};
-
 // 마법봉 tracking
 function trackingStart() {
     if (isColorTrackOn == false) {
         // colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
         trackingColor = new tracking.ColorTracker(selectedColor);
-        switch (selectedColor) {
-
-            case 'red':
-                trackingColor = new tracking.ColorTracker.registerColor('red', customColorSetRed(r, g, b));
-                break;
-
-            case 'blue':
-                trackingColor = new tracking.ColorTracker.registerColor('blue', customColorSetBlue(r, g, b));
-                break;
-
-            case 'yellow':
-                trackingColor = new tracking.ColorTracker(selectedColor);
-                break;
-        }
     }
 
     ctracker = tracking.track('#myVideo', trackingColor); // start the tracking of the colors above on the camera in p5
@@ -1060,12 +1035,14 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
+                sfx_KeySE1.play();
                 console.log("perfect"); // DEBUG
                 tutorialPass = true;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
+                sfx_KeySE1.play();
                 console.log("good"); // DEBUG
                 tutorialPass = true;
                 return "good";
@@ -1078,12 +1055,14 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
+                sfx_KeySE1.play();
                 judgeDir = this.direction;
                 score += 100;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
+                sfx_KeySE1.play();
                 judgeDir = this.direction;
                 score += 50;
                 return "good";
