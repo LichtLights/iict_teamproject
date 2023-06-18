@@ -47,82 +47,82 @@ const missThreshold = 29;
 
 function preload() {
 
-    fontIngameL = loadFont('./src/fonts/KOFIH DrLEEJW_TTF-L.ttf');
-    fontIngameB = loadFont('./src/fonts/KOFIH DrLEEJW_TTF-B.ttf');
+    fontIngameL = loadFont('/src/fonts/KOFIH DrLEEJW_TTF-L.ttf');
+    fontIngameB = loadFont('/src/fonts/KOFIH DrLEEJW_TTF-B.ttf');
 
-    arrow_up = loadImage('./src/Notes/arrow_up.png');
-    arrow_down = loadImage('./src/Notes/arrow_down.png');
-    arrow_left = loadImage('./src/Notes/arrow_left.png');
-    arrow_right = loadImage('./src/Notes/arrow_right.png');
+    arrow_up = loadImage('/src/Notes/arrow_up.png');
+    arrow_down = loadImage('/src/Notes/arrow_down.png');
+    arrow_left = loadImage('/src/Notes/arrow_left.png');
+    arrow_right = loadImage('/src/Notes/arrow_right.png');
 
-    judge_perfect = loadImage('./src/Effects/Judge/perfect.png');
-    judge_good = loadImage('./src/Effects/Judge/good.png');
-    judge_miss = loadImage('./src/Effects/Judge/miss.png');
+    judge_perfect = loadImage('/src/Effects/Judge/perfect.png');
+    judge_good = loadImage('/src/Effects/Judge/good.png');
+    judge_miss = loadImage('/src/Effects/Judge/miss.png');
 
-    wand_red = loadImage('./src/MagicWand/magicWand_R.png');
-    wand_blue = loadImage('./src/MagicWand/magicWand_B.png');
-    wand_yellow = loadImage('./src/MagicWand/magicWand_Y.png');
-    wand_sel = loadImage('./src/MagicWand/magicWand_Selected.png');
+    wand_red = loadImage('/src/MagicWand/magicWand_R.png');
+    wand_blue = loadImage('/src/MagicWand/magicWand_B.png');
+    wand_yellow = loadImage('/src/MagicWand/magicWand_Y.png');
+    wand_sel = loadImage('/src/MagicWand/magicWand_Selected.png');
 
-    trac_eff = loadImage('./src/mousePointer.png');
+    trac_eff = loadImage('/src/mousePointer.png');
 
-    bg_main = loadImage('./src/background/Main.png');
-    bg_game = loadImage('./src/background/battle.png');
-    bg_game2 = loadImage('./src/background/battle02.png');
+    bg_main = loadImage('/src/background/Main.png');
+    bg_game = loadImage('/src/background/battle.png');
+    bg_game2 = loadImage('/src/background/battle02.png');
 
     // cutscenes
-    cut_tuto1 = loadImage('./src/Cutscene/MoveGuide.png');
-    cut_tuto2 = loadImage('./src/Cutscene/MoveGuide02.png');
-    cut_tuto3 = loadImage('./src/Cutscene/PlayGuide.png');
+    cut_tuto1 = loadImage('/src/Cutscene/MoveGuide.png');
+    cut_tuto2 = loadImage('/src/Cutscene/MoveGuide02.png');
+    cut_tuto3 = loadImage('/src/Cutscene/PlayGuide.png');
 
-    cut_intro01 = loadImage('./src/Cutscene/intro01.png');
-    cut_intro02 = loadImage('./src/Cutscene/intro02.png');
+    cut_intro01 = loadImage('/src/Cutscene/intro01.png');
+    cut_intro02 = loadImage('/src/Cutscene/intro02.png');
 
-    cut_clear = loadImage('./src/Cutscene/clear_02.png')
+    cut_clear = loadImage('/src/Cutscene/clear_02.png')
 
-    cut_ending01 = loadImage('./src/Cutscene/Ending01.png');
-    cut_ending02 = loadImage('./src/Cutscene/Ending02.png');
+    cut_ending01 = loadImage('/src/Cutscene/Ending01.png');
+    cut_ending02 = loadImage('/src/Cutscene/Ending02.png');
 
-    cut_retry = loadImage('./src/Cutscene/retry.png');
+    cut_retry = loadImage('/src/Cutscene/retry.png');
 
     // buttons
-    btn_nxt_normal = loadImage('./src/Buttons/btn_nxt_normal.png');
-    btn_nxt_pressed = loadImage('./src/Buttons/btn_nxt_pressed.png');
-    btn_skip = loadImage('./src/Buttons/btn_skip.png');
+    btn_nxt_normal = loadImage('/src/Buttons/btn_nxt_normal.png');
+    btn_nxt_pressed = loadImage('/src/Buttons/btn_nxt_pressed.png');
+    btn_skip = loadImage('/src/Buttons/btn_skip.png');
 
-    btn_retry = loadImage('./src/Buttons/btn_retry.png');
-    btn_retry_pressed = loadImage('./src/Buttons/btn_retry_pressed.png');
+    btn_retry = loadImage('/src/Buttons/btn_retry.png');
+    btn_retry_pressed = loadImage('/src/Buttons/btn_retry_pressed.png');
 
     // bg musics
-    game_music = loadSound('./src/Sounds/InGameMusic.wav');
-    main_music = loadSound('./src/Sounds/mainMusic.wav');
-    end_music = loadSound('./src/Sounds/Ending.wav');
-    intro_music = loadSound('./src/Sounds/Opening.wav');
+    game_music = loadSound('/src/Sounds/InGameMusic.wav');
+    main_music = loadSound('/src/Sounds/mainMusic.wav');
+    end_music = loadSound('/src/Sounds/Ending.wav');
+    intro_music = loadSound('/src/Sounds/Opening.wav');
 
     // sfx
-    sfx_stageClear = loadSound('./src/Sounds/SE/StageClear.wav');
-    sfx_KeySE1 = loadSound('./src/Sounds/SE/KeySE1.mp3');
-    sfx_KeySE2 = loadSound('./src/Sounds/SE/KeySE2.mp3');
-    sfx_KeySE3 = loadSound('./src/Sounds/SE/KeySE3.mp3');
+    sfx_stageClear = loadSound('/src/Sounds/SE/StageClear.wav');
+    sfx_KeySE1 = loadSound('/src/Sounds/SE/KeySE1.mp3');
+    sfx_KeySE2 = loadSound('/src/Sounds/SE/KeySE2.mp3');
+    sfx_KeySE3 = loadSound('/src/Sounds/SE/KeySE3.mp3');
 
     // dog
-    dog0_idle = loadImage('./src/Dog/dog0_idle.png');
-    dog0_ready = loadImage('./src/Dog/dog0_ready.png');
-    dog0_miss = loadImage('./src/Dog/dog0_miss.png');
+    dog0_idle = loadImage('/src/Dog/dog0_idle.png');
+    dog0_ready = loadImage('/src/Dog/dog0_ready.png');
+    dog0_miss = loadImage('/src/Dog/dog0_miss.png');
 
-    dog1_up = loadImage('./src/Dog/dog1_up.png');
-    dog1_down = loadImage('./src/Dog/dog1_down.png');
-    dog1_left = loadImage('./src/Dog/dog1_left.png');
-    dog1_right = loadImage('./src/Dog/dog1_right.png');
+    dog1_up = loadImage('/src/Dog/dog1_up.png');
+    dog1_down = loadImage('/src/Dog/dog1_down.png');
+    dog1_left = loadImage('/src/Dog/dog1_left.png');
+    dog1_right = loadImage('/src/Dog/dog1_right.png');
 
     // dragon
-    dragon0_idle = loadImage('./src/Dragon/dragon0_idle.png');
-    dragon0_rdy_down = loadImage('./src/Dragon/dragon0_rdy_down.png');
-    dragon0_rdy_up_left = loadImage('./src/Dragon/dragon0_rdy_up_left.png');
+    dragon0_idle = loadImage('/src/Dragon/dragon0_idle.png');
+    dragon0_rdy_down = loadImage('/src/Dragon/dragon0_rdy_down.png');
+    dragon0_rdy_up_left = loadImage('/src/Dragon/dragon0_rdy_up_left.png');
 
-    dragon1_hit_down = loadImage('./src/Dragon/dragon1_hit_down.png');
-    dragon1_hit_right = loadImage('./src/Dragon/dragon1_hit_right.png');
-    dragon1_hit_up_left = loadImage('./src/Dragon/dragon1_hit_up_left.png');
+    dragon1_hit_down = loadImage('/src/Dragon/dragon1_hit_down.png');
+    dragon1_hit_right = loadImage('/src/Dragon/dragon1_hit_right.png');
+    dragon1_hit_up_left = loadImage('/src/Dragon/dragon1_hit_up_left.png');
 
 }
 
