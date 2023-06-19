@@ -593,105 +593,101 @@ function gameIngame() {
                     const gamenote26 = createNote('Left', 1833);
                     break;
 
-                case 1898:
-                    const gamenote27 = createNote('Down', 1898);
+                case 1900:
+                    const gamenote27 = createNote('Down', 1900);
                     break;
 
-                case 1969:
-                    const gamenote28 = createNote('Right', 1969);
+                case 1965:
+                    const gamenote28 = createNote('Right', 1965);
                     break;
 
-                case 2040:
-                    const gamenote29 = createNote('Right', 2040);
+                case 2025:
+                    const gamenote29 = createNote('Right', 2025);
                     break;
 
-                case 2111:
-                    const gamenote30 = createNote('Up', 2111);
+                case 2065:
+                    const gamenote30 = createNote('Up', 2065);
                     break;
 
-                case 2180:
-                    const gamenote31 = createNote('Up', 2180);
+                case 2125:
+                    const gamenote31 = createNote('Up', 2125);
                     break;
 
-                case 2214:
-                    const gamenote32 = createNote('Right', 2214);
+                case 2195:
+                    const gamenote33 = createNote('Left', 2195);
                     break;
 
-                case 2251:
-                    const gamenote33 = createNote('Left', 2251);
+                case 2227:
+                    const gamenote34 = createNote('Down', 2227);
                     break;
 
-                case 2320:
-                    const gamenote34 = createNote('Down', 2320);
+                case 2287:
+                    const gamenote35 = createNote('Right', 2287);
                     break;
 
-                case 2387:
-                    const gamenote35 = createNote('Right', 2387);
+                case 2322:
+                    const gamenote36 = createNote('Right', 2322);
+                    break;
+
+                case 2357:
+                    const gamenote37 = createNote('Down', 2357);
+                    break;
+
+                case 2390:
+                    const gamenote38 = createNote('Up', 2390);
                     break;
 
                 case 2425:
-                    const gamenote36 = createNote('Right', 2425);
+                    const gamenote39 = createNote('Left', 2425);
                     break;
 
-                case 2462:
-                    const gamenote37 = createNote('Down', 2462);
+                case 2485:
+                    const gamenote40 = createNote('Up', 2485);
                     break;
 
-                case 2496:
-                    const gamenote38 = createNote('Up', 2496);
+                case 2545:
+                    const gamenote41 = createNote('Down', 2545);
                     break;
 
-                case 2530:
-                    const gamenote39 = createNote('Left', 2530);
+                case 2605:
+                    const gamenote42 = createNote('Left', 2605);
                     break;
 
-                case 2600:
-                    const gamenote40 = createNote('Up', 2600);
-                    break;
-
-                case 2668:
-                    const gamenote41 = createNote('Down', 2668);
-                    break;
-
-                case 2739:
-                    const gamenote42 = createNote('Left', 2739);
-                    break;
-
-                case 2813:
-                    const gamenote43 = createNote('Down', 2813);
+                case 2665:
+                    const gamenote43 = createNote('Down', 2665);
                     battleBgChange = true;
                     break;
 
-                case 2883:
-                    const gamenote44 = createNote('Right', 2883);
+                case 2725:
+                    const gamenote44 = createNote('Right', 2725);
                     break;
 
-                case 2951:
-                    const gamenote45 = createNote('Up', 2951);
+                case 2795:
+                    const gamenote45 = createNote('Up', 2795);
                     break;
 
-                case 3023:
-                    const gamenote46 = createNote('Up', 3023);
+                case 2860:
+                    const gamenote46 = createNote('Up', 2860);
                     break;
 
-                case 3095:
-                    const gamenote47 = createNote('Down', 3095);
+                case 2940:
+                    const gamenote47 = createNote('Down', 2940);
                     break;
 
-                case 3167:
-                    const gamenote48 = createNote('Left', 3167);
+                case 3000:
+                    const gamenote48 = createNote('Left', 3000);
                     break;
 
-                case 3234:
-                    const gamenote49 = createNote('Up', 3234);
+                case 3065:
+                    const gamenote49 = createNote('Up', 3065);
                     break;
 
-                case 3306:
-                    const gamenote50 = createNote('Down', 3306);
+                case 3140:
+                    const gamenote50 = createNote('Down', 3140);
                     break;
 
-                case 3392:
-                    const gamenote51 = createNote('Right', 3392);
+                case 3220:
+                    const gamenote51 = createNote('Right', 3220);
                     break;
 
                 // 3540 음악이 끝남
@@ -1257,14 +1253,14 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
-                sfx_KeySE1.play();
+                sfx_KeySE3.play();
                 console.log("perfect"); // DEBUG
                 tutorialPass = true;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
-                sfx_KeySE1.play();
+                sfx_KeySE3.play();
                 console.log("good"); // DEBUG
                 tutorialPass = true;
                 return "good";
@@ -1277,14 +1273,14 @@ class RhythmNote {
 
             if (timeDiff < perfectThreshold && this.direction == pstroke) {
                 this.hit = true;
-                sfx_KeySE1.play();
+                sfx_KeySE3.play();
                 judgeDir = this.direction;
                 score += 100;
                 return "perfect";
             }
             else if (timeDiff < goodThreshold && this.direction == pstroke) {
                 this.hit = true;
-                sfx_KeySE1.play();
+                sfx_KeySE3.play();
                 judgeDir = this.direction;
                 score += 50;
                 return "good";
