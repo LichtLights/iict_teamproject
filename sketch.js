@@ -497,198 +497,206 @@ function gameIngame() {
                     const gamenote101 = createNote('Right', 229);
                     break;
 
-                case 292:
-                    const gamenote3 = createNote('Left', 292);
+                case 282:
+                    const gamenote3 = createNote('Left', 282);
                     break;
 
-                case 360:
-                    const gamenote4 = createNote('Down', 360);
+                case 340:
+                    const gamenote4 = createNote('Down', 340);
                     break;
 
-                case 434:
-                    const gamenote5 = createNote('Right', 434);
+                case 402:
+                    const gamenote5 = createNote('Right', 402);
                     break;
 
-                case 504:
-                    const gamenote6 = createNote('Left', 504);
+                case 462:
+                    const gamenote6 = createNote('Left', 462);
                     break;
 
-                case 574:
-                    const gamenote7 = createNote('Down', 574);
+                case 522:
+                    const gamenote7 = createNote('Down', 522);
                     break;
 
-                case 641:
-                    const gamenote8 = createNote('Up', 641);
+                case 592:
+                    const gamenote8 = createNote('Up', 592);
                     break;
 
-                case 708:
-                    const gamenote9 = createNote('Up', 708);
+                case 652:
+                    const gamenote9 = createNote('Up', 652);
                     break;
 
-                case 778:
-                    const gamenote10 = createNote('Down', 778);
+                case 712:
+                    const gamenote10 = createNote('Down', 712);
                     break;
 
-                case 855:
-                    const gamenote11 = createNote('Left', 855);
+                case 782:
+                    const gamenote11 = createNote('Left', 782);
                     break;
 
-                case 927:
-                    const gamenote12 = createNote('Right', 927);
+                case 842:
+                    const gamenote12 = createNote('Right', 842);
                     break;
 
-                case 995:
-                    const gamenote13 = createNote('Down', 995);
+                case 905:
+                    const gamenote13 = createNote('Down', 905);
                     break;
 
-                case 1062:
-                    const gamenote14 = createNote('Right', 1062);
+                case 970:
+                    const gamenote14 = createNote('Right', 970);
                     break;
 
-                case 1131:
-                    const gamenote15 = createNote('Left', 1131);
+                case 1040:
+                    const gamenote15 = createNote('Left', 1040);
                     break;
 
-                case 1168:
-                    const gamenote16 = createNote('Up', 1168);
+                case 1075:
+                    const gamenote16 = createNote('Up', 1075);
                     break;
 
-                case 1205:
-                    const gamenote17 = createNote('Right', 1205);
+                case 1110:
+                    const gamenote17 = createNote('Right', 1110);
                     break;
 
-                case 1273:
-                    const gamenote18 = createNote('Down', 1273);
+                case 1173:
+                    const gamenote18 = createNote('Down', 1173);
                     break;
 
-                case 1344:
-                    const gamenote19 = createNote('Left', 1344);
+                case 1238:
+                    const gamenote19 = createNote('Left', 1238);
                     break;
 
-                case 1413:
-                    const gamenote20 = createNote('Down', 1413);
+                case 1300:
+                    const gamenote20 = createNote('Down', 1300);
                     break;
 
-                case 1481:
-                    const gamenote21 = createNote('Up', 1481);
+                case 1365:
+                    const gamenote21 = createNote('Up', 1365);
                     break;
 
-                case 1551:
-                    const gamenote22 = createNote('Right', 1551);
+                case 1435:
+                    const gamenote22 = createNote('Right', 1435);
                     break;
 
-                case 1620:
-                    const gamenote23 = createNote('Left', 1620);
+                case 1495:
+                    const gamenote23 = createNote('Left', 1495);
                     break;
 
-                case 1690:
-                    const gamenote24 = createNote('Down', 1690);
+                case 1560:
+                    const gamenote24 = createNote('Down', 1560);
+                    break;
+
+                case 1630:
+                    const gamenote25 = createNote('Up', 1630);
+                    break;
+
+                case 1700:
+                    const gamenote26 = createNote('Left', 1700);
                     break;
 
                 case 1760:
-                    const gamenote25 = createNote('Up', 1760);
+                    const gamenote27 = createNote('Down', 1760);
                     break;
-
-                case 1833:
-                    const gamenote26 = createNote('Left', 1833);
-                    break;
-
-                case 1900:
-                    const gamenote27 = createNote('Down', 1900);
-                    break;
-
-                case 1965:
-                    const gamenote28 = createNote('Right', 1965);
-                    break;
-
-                case 2025:
-                    const gamenote29 = createNote('Right', 2025);
-                    break;
-
-                case 2065:
-                    const gamenote30 = createNote('Up', 2065);
-                    break;
-
-                case 2125:
-                    const gamenote31 = createNote('Up', 2125);
-                    break;
-
-                case 2195:
-                    const gamenote33 = createNote('Left', 2195);
-                    break;
-
-                case 2227:
-                    const gamenote34 = createNote('Down', 2227);
-                    break;
-
-                case 2287:
-                    const gamenote35 = createNote('Right', 2287);
-                    break;
-
-                case 2322:
-                    const gamenote36 = createNote('Right', 2322);
-                    break;
-
-                case 2357:
-                    const gamenote37 = createNote('Down', 2357);
-                    break;
-
-                case 2390:
-                    const gamenote38 = createNote('Up', 2390);
-                    break;
-
-                case 2425:
-                    const gamenote39 = createNote('Left', 2425);
-                    break;
-
-                case 2485:
-                    const gamenote40 = createNote('Up', 2485);
-                    break;
-
-                case 2545:
-                    const gamenote41 = createNote('Down', 2545);
-                    break;
-
-                case 2605:
-                    const gamenote42 = createNote('Left', 2605);
-                    break;
-
-                case 2665:
-                    const gamenote43 = createNote('Down', 2665);
                     battleBgChange = true;
+
+                case 1825:
+                    const gamenote28 = createNote('Right', 1825);
                     break;
 
-                case 2725:
-                    const gamenote44 = createNote('Right', 2725);
+                case 1885:
+                    const gamenote29 = createNote('Right', 1885);
                     break;
 
-                case 2795:
-                    const gamenote45 = createNote('Up', 2795);
+                case 1945:
+                    const gamenote30 = createNote('Up', 1945);
                     break;
 
-                case 2860:
-                    const gamenote46 = createNote('Up', 2860);
+                case 2005:
+                    const gamenote31 = createNote('Up', 2005);
                     break;
 
-                case 2940:
-                    const gamenote47 = createNote('Down', 2940);
+                case 2075:
+                    const gamenote33 = createNote('Left', 2075);
                     break;
 
-                case 3000:
-                    const gamenote48 = createNote('Left', 3000);
+                case 2107:
+                    const gamenote34 = createNote('Down', 2107);
                     break;
 
-                case 3065:
-                    const gamenote49 = createNote('Up', 3065);
+                case 2167:
+                    const gamenote35 = createNote('Right', 2167);
                     break;
 
-                case 3140:
-                    const gamenote50 = createNote('Down', 3140);
+                case 2202:
+                    const gamenote36 = createNote('Right', 2202);
                     break;
 
-                case 3220:
-                    const gamenote51 = createNote('Right', 3220);
+                case 2237:
+                    const gamenote37 = createNote('Down', 2237);
                     break;
+
+                case 2270:
+                    const gamenote38 = createNote('Up', 2270);
+                    break;
+                
+                // case 2330:
+                //     const gamenote38 = createNote('Right', 2330);
+                //     break;
+                
+                // case 2390:
+                //     const gamenote38 = createNote('Down', 2390);
+                //     break;
+                    
+                // case 2425:
+                //     const gamenote39 = createNote('Left', 2425);
+                //     break;
+
+                // case 2485:
+                //     const gamenote40 = createNote('Up', 2485);
+                //     break;
+
+                // case 2545:
+                //     const gamenote41 = createNote('Down', 2545);
+                //     break;
+
+                // case 2605:
+                //     const gamenote42 = createNote('Left', 2605);
+                //     break;
+
+                // case 2665:
+                //     const gamenote43 = createNote('Down', 2665);
+                //     break;
+
+                // case 2725:
+                //     const gamenote44 = createNote('Right', 2725);
+                //     break;
+
+                // case 2795:
+                //     const gamenote45 = createNote('Up', 2795);
+                //     break;
+
+                // case 2860:
+                //     const gamenote46 = createNote('Up', 2860);
+                //     break;
+
+                // case 2940:
+                //     const gamenote47 = createNote('Down', 2940);
+                //     break;
+
+                // case 3000:
+                //     const gamenote48 = createNote('Left', 3000);
+                //     break;
+
+                // case 3065:
+                //     const gamenote49 = createNote('Up', 3065);
+                //     break;
+
+                // case 3140:
+                //     const gamenote50 = createNote('Down', 3140);
+                //     break;
+
+                // case 3220:
+                //     const gamenote51 = createNote('Right', 3220);
+                //     break;
 
                 // 3540 음악이 끝남
                 case 3570:
