@@ -637,15 +637,20 @@ function gameIngame() {
                 case 2270:
                     const gamenote38 = createNote('Up', 2270);
                     break;
-                
+
+                case 2330:
+                    sfx_stageClear.play();
+                    gameState = 'gameClear';
+                    break;
+
                 // case 2330:
                 //     const gamenote38 = createNote('Right', 2330);
                 //     break;
-                
+
                 // case 2390:
                 //     const gamenote38 = createNote('Down', 2390);
                 //     break;
-                    
+
                 // case 2425:
                 //     const gamenote39 = createNote('Left', 2425);
                 //     break;
@@ -699,10 +704,10 @@ function gameIngame() {
                 //     break;
 
                 // 3540 음악이 끝남
-                case 3570:
-                    sfx_stageClear.play();
-                    gameState = 'gameClear';
-                    break;
+                // case 3570:
+                //     sfx_stageClear.play();
+                //     gameState = 'gameClear';
+                //     break;
 
                 default:
                     break;
