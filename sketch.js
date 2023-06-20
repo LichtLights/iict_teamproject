@@ -611,10 +611,6 @@ function gameIngame() {
                     const gamenote30 = createNote('Up', 1660);
                     break;
 
-                case 1691:
-                    const gamenote31 = createNote('Up', 1691);
-                    break;
-
                 case 1725:
                     const gamenote33 = createNote('Left', 1725);
                     break;
