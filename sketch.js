@@ -639,21 +639,21 @@ function gameIngame() {
                     break;
 
                 case 2330:
+                    const gamenote39 = createNote('Right', 2330);
+                    break;
+
+                case 2390:
+                    const gamenote40 = createNote('Down', 2390);
+                    break;
+
+                case 2425:
+                    const gamenote41 = createNote('Left', 2425);
+                    break;
+
+                case 2545:
                     sfx_stageClear.play();
                     gameState = 'gameClear';
                     break;
-
-                // case 2330:
-                //     const gamenote38 = createNote('Right', 2330);
-                //     break;
-
-                // case 2390:
-                //     const gamenote38 = createNote('Down', 2390);
-                //     break;
-
-                // case 2425:
-                //     const gamenote39 = createNote('Left', 2425);
-                //     break;
 
                 // case 2485:
                 //     const gamenote40 = createNote('Up', 2485);
