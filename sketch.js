@@ -595,8 +595,9 @@ function gameIngame() {
 
                 case 1490:
                     const gamenote27 = createNote('Down', 1490);
-                    break;
                     battleBgChange = true;
+                    break;
+
 
                 case 1547:
                     const gamenote28 = createNote('Right', 1547);
